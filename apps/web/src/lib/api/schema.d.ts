@@ -11,7 +11,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Healthz */
+        /**
+         * Healthz
+         * @description Liveness and dependency checks. Browsers get a page; everything else gets JSON.
+         */
         get: operations["healthz_healthz_get"];
         put?: never;
         post?: never;
@@ -491,6 +494,30 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /** Health */
+        Health: {
+            /** Status */
+            status: string;
+            /** Version */
+            version: string;
+            /** Ai Provider */
+            ai_provider: string;
+            /** Uptime Seconds */
+            uptime_seconds: number;
+            /** Checks */
+            checks: components["schemas"]["HealthCheck"][];
+        };
+        /** HealthCheck */
+        HealthCheck: {
+            /** Name */
+            name: string;
+            /** Ok */
+            ok: boolean;
+            /** Detail */
+            detail: string;
+            /** Latency Ms */
+            latency_ms?: number | null;
+        };
         /** InterviewReply */
         InterviewReply: {
             /** Text */
@@ -672,9 +699,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        [key: string]: string;
-                    };
+                    "application/json": components["schemas"]["Health"];
                 };
             };
         };

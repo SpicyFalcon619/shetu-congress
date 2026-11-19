@@ -60,27 +60,27 @@ def _employee(leave: Leave, me: Person) -> None:
 # --- people and leaves ---------------------------------------------------------------------------
 
 
-@router.get("/personas", response_model=list[PersonOut], tags=["people"])
+@router.get("/personas", response_model=list[PersonOut], tags=["People"])
 def personas(session: SessionDep) -> list[Person]:
     return list(
         session.scalars(select(Person).order_by(Person.organization, Person.role, Person.name))
     )
 
 
-@router.get("/leaves", response_model=list[LeaveSummary], tags=["leaves"])
+@router.get("/leaves", response_model=list[LeaveSummary], tags=["Leaves"])
 def list_leaves(session: SessionDep, me: Me) -> list[Leave]:
     leaves = session.scalars(select(Leave).order_by(Leave.starts_on)).all()
     return [lv for lv in leaves if can_view(session, lv, me)]
 
 
-@router.get("/leaves/{leave_id}", response_model=LeaveDetail, tags=["leaves"])
+@router.get("/leaves/{leave_id}", response_model=LeaveDetail, tags=["Leaves"])
 def get_leave(leave_id: str, session: SessionDep, me: Me) -> LeaveDetail:
     leave = _leave(session, leave_id)
     require(can_view(session, leave, me), "You are not part of this leave.")
     return services.leave_detail(session, leave)
 
 
-@router.get("/leaves/{leave_id}/audit", response_model=list[AuditOut], tags=["leaves"])
+@router.get("/leaves/{leave_id}/audit", response_model=list[AuditOut], tags=["Leaves"])
 def audit_log(leave_id: str, session: SessionDep, me: Me) -> list[AuditEvent]:
     leave = _leave(session, leave_id)
     require(
@@ -96,7 +96,7 @@ def audit_log(leave_id: str, session: SessionDep, me: Me) -> list[AuditEvent]:
 # --- interview (employee) ------------------------------------------------------------------------
 
 
-@router.post("/leaves/{leave_id}/interview/start", response_model=LeaveDetail, tags=["interview"])
+@router.post("/leaves/{leave_id}/interview/start", response_model=LeaveDetail, tags=["Interview"])
 def interview_start(leave_id: str, session: SessionDep, me: Me, gw: GatewayDep) -> LeaveDetail:
     leave = _leave(session, leave_id)
     _employee(leave, me)
@@ -104,7 +104,7 @@ def interview_start(leave_id: str, session: SessionDep, me: Me, gw: GatewayDep) 
     return services.leave_detail(session, leave)
 
 
-@router.post("/leaves/{leave_id}/interview/reply", response_model=LeaveDetail, tags=["interview"])
+@router.post("/leaves/{leave_id}/interview/reply", response_model=LeaveDetail, tags=["Interview"])
 def interview_reply(
     leave_id: str, body: InterviewReply, session: SessionDep, me: Me, gw: GatewayDep
 ) -> LeaveDetail:
@@ -114,7 +114,7 @@ def interview_reply(
     return services.leave_detail(session, leave)
 
 
-@router.patch("/duties/{duty_id}", response_model=LeaveDetail, tags=["interview"])
+@router.patch("/duties/{duty_id}", response_model=LeaveDetail, tags=["Interview"])
 def patch_duty(duty_id: str, body: DutyPatch, session: SessionDep, me: Me) -> LeaveDetail:
     duty = session.get(Duty, duty_id)
     if duty is None:
@@ -128,7 +128,7 @@ def patch_duty(duty_id: str, body: DutyPatch, session: SessionDep, me: Me) -> Le
     return services.leave_detail(session, duty.leave)
 
 
-@router.delete("/duties/{duty_id}", response_model=LeaveDetail, tags=["interview"])
+@router.delete("/duties/{duty_id}", response_model=LeaveDetail, tags=["Interview"])
 def delete_duty(duty_id: str, session: SessionDep, me: Me) -> LeaveDetail:
     duty = session.get(Duty, duty_id)
     if duty is None:
@@ -143,7 +143,7 @@ def delete_duty(duty_id: str, session: SessionDep, me: Me) -> LeaveDetail:
 # --- cover plan (manager) ------------------------------------------------------------------------
 
 
-@router.post("/leaves/{leave_id}/cover/propose", response_model=LeaveDetail, tags=["cover"])
+@router.post("/leaves/{leave_id}/cover/propose", response_model=LeaveDetail, tags=["Cover plan"])
 def cover_propose(leave_id: str, session: SessionDep, me: Me, gw: GatewayDep) -> LeaveDetail:
     leave = _leave(session, leave_id)
     _manager(leave, me)
@@ -152,7 +152,7 @@ def cover_propose(leave_id: str, session: SessionDep, me: Me, gw: GatewayDep) ->
 
 
 @router.put(
-    "/leaves/{leave_id}/availability/{person_id}", response_model=LeaveDetail, tags=["cover"]
+    "/leaves/{leave_id}/availability/{person_id}", response_model=LeaveDetail, tags=["Cover plan"]
 )
 def put_availability(
     leave_id: str, person_id: str, body: AvailabilityIn, session: SessionDep, me: Me
@@ -164,7 +164,7 @@ def put_availability(
     return services.leave_detail(session, leave)
 
 
-@router.patch("/assignments/{assignment_id}", response_model=LeaveDetail, tags=["cover"])
+@router.patch("/assignments/{assignment_id}", response_model=LeaveDetail, tags=["Cover plan"])
 def patch_assignment(
     assignment_id: str, body: AssignmentPatch, session: SessionDep, me: Me
 ) -> LeaveDetail:
@@ -188,7 +188,7 @@ def patch_assignment(
     "/leaves/{leave_id}/cover/approve",
     response_model=LeaveDetail,
     responses={409: {"model": list[FindingOut]}},
-    tags=["cover"],
+    tags=["Cover plan"],
 )
 def cover_approve(leave_id: str, session: SessionDep, me: Me) -> LeaveDetail:
     leave = _leave(session, leave_id)
@@ -205,14 +205,14 @@ def cover_approve(leave_id: str, session: SessionDep, me: Me) -> LeaveDetail:
 # --- changes during leave ------------------------------------------------------------------------
 
 
-@router.get("/leaves/{leave_id}/changes", response_model=list[ChangeOut], tags=["changes"])
+@router.get("/leaves/{leave_id}/changes", response_model=list[ChangeOut], tags=["Changes"])
 def list_changes(leave_id: str, session: SessionDep, me: Me) -> list[ChangeRequest]:
     leave = _leave(session, leave_id)
     require(can_view(session, leave, me), "You are not part of this leave.")
     return sorted(leave.changes, key=lambda c: c.created_at, reverse=True)
 
 
-@router.post("/leaves/{leave_id}/changes", response_model=ChangeOut, tags=["changes"])
+@router.post("/leaves/{leave_id}/changes", response_model=ChangeOut, tags=["Changes"])
 def post_change(
     leave_id: str, body: ChangeIn, session: SessionDep, me: Me, gw: GatewayDep
 ) -> ChangeRequest:
@@ -225,7 +225,7 @@ def post_change(
     return change
 
 
-@router.post("/changes/{change_id}/decision", response_model=LeaveDetail, tags=["changes"])
+@router.post("/changes/{change_id}/decision", response_model=LeaveDetail, tags=["Changes"])
 def change_decision(
     change_id: str, body: ChangeDecision, session: SessionDep, me: Me
 ) -> LeaveDetail:
@@ -240,7 +240,7 @@ def change_decision(
 # --- return --------------------------------------------------------------------------------------
 
 
-@router.post("/leaves/{leave_id}/demo/fast-forward", response_model=ReturnView, tags=["return"])
+@router.post("/leaves/{leave_id}/demo/fast-forward", response_model=ReturnView, tags=["Return"])
 def demo_fast_forward(leave_id: str, session: SessionDep, me: Me) -> ReturnView:
     """Demo only: jump to the return day with scripted outcomes."""
     leave = _leave(session, leave_id)
@@ -251,14 +251,14 @@ def demo_fast_forward(leave_id: str, session: SessionDep, me: Me) -> ReturnView:
     return services.return_view(leave)
 
 
-@router.get("/leaves/{leave_id}/return", response_model=ReturnView, tags=["return"])
+@router.get("/leaves/{leave_id}/return", response_model=ReturnView, tags=["Return"])
 def get_return(leave_id: str, session: SessionDep, me: Me) -> ReturnView:
     leave = _leave(session, leave_id)
     require(can_view(session, leave, me), "You are not part of this leave.")
     return services.return_view(leave)
 
 
-@router.post("/leaves/{leave_id}/return/explain", response_model=ReturnExplanation, tags=["return"])
+@router.post("/leaves/{leave_id}/return/explain", response_model=ReturnExplanation, tags=["Return"])
 def explain_return(leave_id: str, session: SessionDep, me: Me, gw: GatewayDep) -> ReturnExplanation:
     leave = _leave(session, leave_id)
     _employee(leave, me)
@@ -272,7 +272,7 @@ def explain_return(leave_id: str, session: SessionDep, me: Me, gw: GatewayDep) -
     return result
 
 
-@router.post("/return-items/{item_id}/decision", response_model=ReturnView, tags=["return"])
+@router.post("/return-items/{item_id}/decision", response_model=ReturnView, tags=["Return"])
 def return_decision(item_id: str, body: ReturnDecision, session: SessionDep, me: Me) -> ReturnView:
     item = session.get(ReturnItem, item_id)
     if item is None:
@@ -287,7 +287,7 @@ def return_decision(item_id: str, body: ReturnDecision, session: SessionDep, me:
     "/leaves/{leave_id}/close",
     response_model=LeaveDetail,
     responses={409: {"model": FindingOut}},
-    tags=["return"],
+    tags=["Return"],
 )
 def close(leave_id: str, session: SessionDep, me: Me) -> LeaveDetail:
     leave = _leave(session, leave_id)

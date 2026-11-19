@@ -16,7 +16,7 @@ services:
       - key: SHETU_DATABASE_URL
         sync: false
       - key: SHETU_CORS_ORIGINS
-        sync: false
+        value: '["https://shetu-delta.vercel.app","http://localhost:3000"]'
       - key: SHETU_AI_PROVIDER
         value: groq
       - key: SHETU_AI_FALLBACK

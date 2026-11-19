@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/tonni19/shetu-congress/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/tonni19/shetu-congress/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/SpicyFalcon619/shetu-congress/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/SpicyFalcon619/shetu-congress/actions/workflows/ci.yml/badge.svg"></a>
   <img alt="Python 3.12" src="https://img.shields.io/badge/python-3.12-3776AB?logo=python&logoColor=white">
   <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-0.115+-009688?logo=fastapi&logoColor=white">
   <img alt="Next.js 16" src="https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white">
@@ -24,10 +24,18 @@
   Domain: InfraSphere · Challenge: Human+AI
 </p>
 
+<p align="center">
+  <a href="https://shetu-delta.vercel.app"><b>Live app</b></a> ·
+  <a href="https://shetu-api.onrender.com">API status</a> ·
+  <a href="https://shetu-api.onrender.com/docs">API reference</a> ·
+  <a href="#using-the-demo">Demo guide</a>
+</p>
+
 ---
 
 ## Table of contents
 
+- [Live demo](#live-demo)
 - [Overview](#overview)
 - [The problem](#the-problem)
 - [How Shetu works](#how-shetu-works)
@@ -52,6 +60,19 @@
 - [Team](#team)
 - [AI and data disclosure](#ai-and-data-disclosure)
 - [License](#license)
+
+---
+
+## Live demo
+
+| | Link | Notes |
+|---|---|---|
+| **App** | https://shetu-delta.vercel.app | Pick a demo account on the sign-in page. Start with **Rafiq Ahmed** (manager) or **Nusrat Jahan** (employee) |
+| **API status** | https://shetu-api.onrender.com | Branded status page: live database and AI checks, version, uptime |
+| **API reference** | https://shetu-api.onrender.com/docs | Interactive API reference (Scalar) generated from the OpenAPI spec |
+| **Health** | https://shetu-api.onrender.com/healthz | A page in the browser, JSON for monitors (same URL, content negotiation) |
+
+The API runs on a free instance that sleeps after about 15 minutes without traffic. If the app looks empty at first, open the API status link, wait for it to load (up to a minute), then refresh the app. All data in the demo is synthetic.
 
 ---
 
@@ -233,6 +254,7 @@ A request flows through a route (permission check), a service (load data, call t
 | Data | SQLAlchemy 2, Alembic migrations, PostgreSQL in production, SQLite locally and in tests |
 | AI | `google-genai`, `anthropic`, and `openai` (for Groq and local OpenAI-compatible servers) |
 | Tooling | uv, pnpm, Ruff, mypy (strict), pytest, ESLint, Prettier |
+| API docs | OpenAPI 3.1, Scalar API reference, branded status and health pages |
 | Delivery | Docker, GitHub Actions CI, Dependabot, Vercel (web), Render (API), Neon (Postgres) |
 
 ---
@@ -252,7 +274,7 @@ A request flows through a route (permission check), a service (load data, call t
 ### Quick start
 
 ```bash
-git clone https://github.com/tonni19/shetu-congress.git
+git clone https://github.com/SpicyFalcon619/shetu-congress.git
 cd shetu-congress
 
 # Configure (the defaults work with no API key, using recorded AI replies)
@@ -393,7 +415,7 @@ shetu-congress/
 
 ## API reference
 
-All routes are under `/api/v1` and require the header `X-Shetu-Persona: <person id>` in the demo. Interactive documentation is served at `/docs` (Swagger UI) and `/redoc`.
+All routes are under `/api/v1` and require the header `X-Shetu-Persona: <person id>` in the demo. An interactive reference (Scalar) is served at `/docs`, and the raw spec at `/openapi.json`. The root `/` serves a status page.
 
 | Method | Path | Who | Purpose |
 |---|---|---|---|
@@ -415,7 +437,7 @@ All routes are under `/api/v1` and require the header `X-Shetu-Persona: <person 
 | `POST` | `/return-items/{id}/decision` | employee | Agree a duty stays, or take it back |
 | `POST` | `/leaves/{id}/close` | manager | Close; `409` while R8 fails |
 | `POST` | `/leaves/{id}/demo/fast-forward` | manager | Demo only: jump to the return day |
-| `GET` | `/healthz` | anyone | Health and active AI provider |
+| `GET` | `/healthz` | anyone | Database and AI checks, version, uptime. HTML for browsers, JSON otherwise (`503` when degraded) |
 
 ---
 
@@ -457,13 +479,34 @@ The rules have at least two tests each, including boundaries such as an assignme
 
 ## Deployment
 
-| Component | Service | Notes |
-|---|---|---|
-| Database | [Neon](https://neon.tech) | Serverless PostgreSQL; free tier; choose the Singapore region |
-| API | [Render](https://render.com) | Docker image from `apps/api`; configured by [`render.yaml`](render.yaml); runs migrations and seeds on start |
-| Web | [Vercel](https://vercel.com) | Root directory `apps/web`; set `NEXT_PUBLIC_API_URL` |
+The live demo runs on three managed services, all on free plans:
 
-Step-by-step instructions are in [docs/deployment.md](docs/deployment.md). The free Render instance sleeps when idle; open `/healthz` a few minutes before a live demo.
+| Component | Service | Region | How it is configured |
+|---|---|---|---|
+| Database | [Neon](https://neon.tech) serverless PostgreSQL | Singapore | One project, database `neondb`, pooled connection string |
+| API | [Render](https://render.com) web service | Singapore | Docker build from `apps/api` ([`Dockerfile`](apps/api/Dockerfile), blueprint in [`render.yaml`](render.yaml)); runs `alembic upgrade head` and seeds an empty database on start; health check `/healthz` |
+| Web | [Vercel](https://vercel.com) | Global edge | Next.js project rooted at `apps/web`; redeploys on every push to `main` |
+
+**API environment on Render**
+
+| Variable | Value |
+|---|---|
+| `SHETU_DATABASE_URL` | the Neon connection string |
+| `SHETU_CORS_ORIGINS` | `["https://shetu-delta.vercel.app","http://localhost:3000"]` |
+| `SHETU_AI_PROVIDER` / `SHETU_AI_FALLBACK` | `groq` / `gemini` |
+| `SHETU_GROQ_API_KEY`, `SHETU_GROQ_MODEL` | key, `qwen/qwen3.8-27b` |
+| `SHETU_GEMINI_API_KEY`, `SHETU_GEMINI_MODEL` | key, `gemini-3.5-flash` |
+
+**Web environment on Vercel:** `NEXT_PUBLIC_API_URL=https://shetu-api.onrender.com`.
+
+**Resetting the demo data.** In the Neon SQL editor run the statement below, then restart the Render service; it reseeds on startup.
+
+```sql
+TRUNCATE people, leaves, duties, assignments, availability, transcript_turns,
+         change_requests, return_items, audit_events CASCADE;
+```
+
+Full step-by-step instructions, including first-time setup, are in [docs/deployment.md](docs/deployment.md).
 
 ---
 

@@ -100,3 +100,19 @@ def test_full_flow_interview_cover_change_return(client: TestClient) -> None:
 def test_status_page_at_root(client: TestClient) -> None:
     r = client.get("/")
     assert r.status_code == 200 and "Shetu API" in r.text and "/docs" in r.text
+
+
+def test_health_json_reports_checks(client: TestClient) -> None:
+    body = client.get("/healthz").json()
+    assert body["status"] == "ok"
+    assert {c["name"] for c in body["checks"]} >= {"Database", "Primary AI"}
+
+
+def test_health_page_for_browsers(client: TestClient) -> None:
+    r = client.get("/healthz", headers={"Accept": "text/html"})
+    assert r.headers["content-type"].startswith("text/html") and "All systems operational" in r.text
+
+
+def test_api_reference_page(client: TestClient) -> None:
+    r = client.get("/docs")
+    assert r.status_code == 200 and "Shetu API reference" in r.text

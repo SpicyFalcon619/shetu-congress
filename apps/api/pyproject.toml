@@ -16,6 +16,7 @@ dependencies = [
   "google-genai>=1.0",
   "anthropic>=0.40",
   "openai>=1.50",
+  "scalar-fastapi>=1.10.0",
 ]
 
 [dependency-groups]

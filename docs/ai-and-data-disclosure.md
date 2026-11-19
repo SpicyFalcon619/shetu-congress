@@ -7,7 +7,7 @@
 
 ## AI inside the product
 
-- Live demo: Google Gemini through the `google-genai` SDK (model set by `SHETU_GEMINI_MODEL`). Anthropic Claude is supported by the same gateway.
+- Live demo: Groq (`qwen/qwen3.8-27b`) through its OpenAI-compatible API, with Google Gemini (`gemini-3.5-flash`, `google-genai` SDK) as the automatic fallback. Anthropic Claude and a fully local model (Ollama, LM Studio, llama.cpp, vLLM) are supported by the same gateway; the local option keeps all data on the organization's own machines.
 - Five tasks in two roles (interviewer and planner). The prompts are in `apps/api/src/shetu_api/ai/prompts/`.
 - **Replay mode.** Tests and offline runs use recorded model replies in `apps/api/fixtures/replay/`. Any demo run in replay mode is labelled as such. Recorded replies came from real model calls or, for the default fixtures, were written by the team to exercise the rules.
 

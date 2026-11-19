@@ -1,33 +1,95 @@
 # Deployment
 
-Three managed services, all with free tiers. One person sets each up once; afterwards every push to `main` deploys automatically.
+Shetu runs on three managed services, all on free plans. Set each up once; after that, pushes to `main` redeploy the web app automatically, and the API redeploys from the Render dashboard (or automatically, if Render is connected to the GitHub repository).
+
+| Component | Service | Live address |
+|---|---|---|
+| Database | Neon (PostgreSQL) | private connection string |
+| API | Render (Docker) | https://shetu-api.onrender.com |
+| Web | Vercel (Next.js) | https://shetu-delta.vercel.app |
+
+Keys and connection strings go only into each service's settings. Never commit them and never paste them into chats or issues.
 
 ## 1. Database: Neon
 
-1. Create a project at neon.tech (region: Singapore).
-2. Copy the connection string (`postgresql://...`). This is `SHETU_DATABASE_URL`.
+1. Sign in at [neon.tech](https://neon.tech) with GitHub and create a project named `shetu` in **AWS Asia Pacific 1 (Singapore)**. Only the Postgres database service is needed.
+2. Open **Connect**. Keep branch `production`, database `neondb`, role `neondb_owner` and connection pooling on.
+3. Choose **Show password** and copy the full connection string (`postgresql://…?sslmode=require&channel_binding=require`). This becomes `SHETU_DATABASE_URL`.
+
+The schema is created by Alembic when the API starts; nothing needs to be run in Neon.
 
 ## 2. API: Render
 
-1. At render.com, choose **New → Blueprint** and select this repository. Render reads `render.yaml`.
-2. Fill the secret values:
-   - `SHETU_DATABASE_URL`: the Neon string
-   - `SHETU_CORS_ORIGINS`: `["https://<your-vercel-domain>"]`
-   - `SHETU_GEMINI_API_KEY`: from Google AI Studio (or set `SHETU_AI_PROVIDER=anthropic` and `SHETU_ANTHROPIC_API_KEY`)
-3. Deploy. On start the container runs `alembic upgrade head`, seeds the synthetic data if the database is empty, and serves on `/`. Check `https://<api>/healthz`.
+1. At [render.com](https://render.com) choose **New → Web Service** and select `SpicyFalcon619/shetu-congress` (or paste the public repository URL).
+2. Settings:
 
-The free instance sleeps after inactivity and takes about a minute to wake. Open `/healthz` a few minutes before any live demo or recording.
+   | Field | Value |
+   |---|---|
+   | Name | `shetu-api` |
+   | Language | Docker |
+   | Branch | `main` |
+   | Region | Singapore |
+   | Root Directory | `apps/api` |
+   | Dockerfile Path | `./Dockerfile` |
+   | Instance type | Free |
+   | Health Check Path (Advanced) | `/healthz` |
+
+3. Environment variables (exactly these eight; do not paste a local `.env`, which sets `SHETU_ENVIRONMENT=local`):
+
+   ```
+   SHETU_DATABASE_URL=<Neon connection string>
+   SHETU_CORS_ORIGINS=["https://shetu-delta.vercel.app","http://localhost:3000"]
+   SHETU_AI_PROVIDER=groq
+   SHETU_AI_FALLBACK=gemini
+   SHETU_GROQ_API_KEY=<Groq key>
+   SHETU_GROQ_MODEL=qwen/qwen3.8-27b
+   SHETU_GEMINI_API_KEY=<Gemini key>
+   SHETU_GEMINI_MODEL=gemini-3.5-flash
+   ```
+
+4. Deploy. A healthy first start logs `Running upgrade -> …, initial schema`, `seed.inserted` and `startup environment=production provider=groq`.
+5. Check https://shetu-api.onrender.com (status page) and `/healthz`.
+
+The free instance sleeps after about 15 minutes without traffic and takes up to a minute to wake. Open the status page a few minutes before testing, presenting or recording.
 
 ## 3. Web: Vercel
 
-1. At vercel.com, import this repository and set **Root Directory** to `apps/web`.
-2. Add the environment variable `NEXT_PUBLIC_API_URL=https://<api>.onrender.com`.
-3. Deploy, then put the Vercel domain into the API's `SHETU_CORS_ORIGINS`.
+From the web app folder, with the Vercel CLI:
+
+```powershell
+cd apps/web
+npx vercel login
+npx vercel link            # Create a new project → name "shetu" → connect the Git repository → code directory ./ → do not customize settings
+npx vercel env add NEXT_PUBLIC_API_URL production   # value: https://shetu-api.onrender.com
+npx vercel --prod
+```
+
+The project is linked to the Git repository, so every push to `main` deploys again. The link step writes a local `.env.local` (git-ignored).
+
+## 4. Connect the two
+
+The API only accepts browser requests from origins listed in `SHETU_CORS_ORIGINS`. Whenever the web address changes, update that variable in Render and redeploy.
 
 ## Choosing the model
 
-`SHETU_GEMINI_MODEL` defaults to `gemini-3.5-flash`. Confirm the model is still offered in Google AI Studio before the demo, and change the variable if not; no code change is needed.
+Models are configuration, not code. If a provider retires a model, list what your key can use and update the `*_MODEL` variable:
 
-## Resetting the demo
+```bash
+cd apps/api
+uv run python -c "from shetu_api.config import Settings; from google import genai; s=Settings(); print([m.name for m in genai.Client(api_key=s.gemini_api_key).models.list()])"
+```
 
-Delete all rows (or drop and recreate the Neon branch) and restart the API. It reseeds on startup.
+`SHETU_AI_FALLBACK` lets the API retry on the next provider if the main one is overloaded or down.
+
+## Resetting the demo data
+
+1. In the Neon **SQL Editor**:
+
+   ```sql
+   TRUNCATE people, leaves, duties, assignments, availability, transcript_turns,
+            change_requests, return_items, audit_events CASCADE;
+   ```
+
+2. In Render: **Manual Deploy → Restart service**. The API finds an empty database and reseeds it.
+
+Do this right before recording a demo so every walkthrough starts clean.
