@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     environment: Literal["local", "test", "production"] = "local"
     database_url: str = f"sqlite:///{API_ROOT / 'shetu.db'}"
     cors_origins: list[str] = ["http://localhost:3000"]
+    # The public web app, linked from the API's status page.
+    app_url: str = "https://shetu-delta.vercel.app"
 
     # AI provider. "replay" serves recorded replies and never calls a network model.
     # "groq" and "local" both use the OpenAI-compatible chat API; "local" means a model running on

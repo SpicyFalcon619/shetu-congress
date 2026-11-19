@@ -6,12 +6,14 @@ from contextlib import asynccontextmanager
 import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 
 from shetu_api import __version__
 from shetu_api.config import get_settings
 from shetu_api.db import Base, get_engine, get_sessionmaker
 from shetu_api.routes import router
 from shetu_api.seed import seed
+from shetu_api.status_page import render as render_status
 
 log = structlog.get_logger()
 
@@ -44,6 +46,15 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    @app.get("/", include_in_schema=False, response_class=HTMLResponse)
+    def status_page() -> str:
+        return render_status(
+            version=__version__,
+            provider=settings.ai_provider,
+            fallback=settings.ai_fallback,
+            app_url=settings.app_url,
+        )
 
     @app.get("/healthz", tags=["ops"])
     def healthz() -> dict[str, str]:

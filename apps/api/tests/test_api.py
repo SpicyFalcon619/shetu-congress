@@ -95,3 +95,8 @@ def test_full_flow_interview_cover_change_return(client: TestClient) -> None:
 
     log = client.get(f"{NUSRAT}/audit", headers=as_("farzana")).json()
     assert "cover.approved" in [e["action"] for e in log]
+
+
+def test_status_page_at_root(client: TestClient) -> None:
+    r = client.get("/")
+    assert r.status_code == 200 and "Shetu API" in r.text and "/docs" in r.text
