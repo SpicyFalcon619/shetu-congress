@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  api:
+    name: API (lint, types, tests)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/api
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy
+      - run: uv run pytest --cov=shetu_api --cov-report=term-missing
+      - name: Migrations apply cleanly
+        env:
+          SHETU_DATABASE_URL: sqlite:///./ci.db
+        run: uv run alembic upgrade head
+      - name: API contract matches the committed OpenAPI spec
+        run: |
+          uv run python -c "import json; from shetu_api.main import app; print(json.dumps(app.openapi(), indent=1))" > /tmp/openapi.json
+          diff -u ../web/openapi.json /tmp/openapi.json || (echo "Run 'make api-types' and commit the result." && exit 1)
+
+  web:
+    name: Web (lint, types, build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: apps/web/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec prettier --check src
+      - run: pnpm lint
+      - run: pnpm exec tsc --noEmit
+      - run: pnpm build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+          NEXT_PUBLIC_API_URL: https://api.example.invalid

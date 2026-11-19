@@ -1,0 +1,30 @@
+# Local stack. `docker compose up` runs Postgres and the API; run the web app with `make web`.
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: shetu
+      POSTGRES_PASSWORD: shetu
+      POSTGRES_DB: shetu
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shetu"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: ./apps/api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SHETU_DATABASE_URL: postgresql://shetu:shetu@db:5432/shetu
+      SHETU_CORS_ORIGINS: '["http://localhost:3000"]'
+      SHETU_AI_PROVIDER: ${SHETU_AI_PROVIDER:-replay}
+      SHETU_GEMINI_API_KEY: ${SHETU_GEMINI_API_KEY:-}
+      SHETU_ANTHROPIC_API_KEY: ${SHETU_ANTHROPIC_API_KEY:-}
+    ports: ["8000:8000"]
+
+volumes:
+  pgdata:

@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.png binary
+*.ico binary
+apps/web/src/lib/api/schema.d.ts linguist-generated=true
+apps/web/openapi.json linguist-generated=true
+apps/api/uv.lock linguist-generated=true
+apps/web/pnpm-lock.yaml linguist-generated=true

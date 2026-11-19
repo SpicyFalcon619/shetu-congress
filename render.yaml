@@ -1,0 +1,27 @@
+# Render Blueprint for the API. The database is Neon Postgres (set SHETU_DATABASE_URL);
+# the web app is deployed on Vercel. See docs/deployment.md.
+services:
+  - type: web
+    name: shetu-api
+    runtime: docker
+    rootDir: apps/api
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: singapore
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: SHETU_ENVIRONMENT
+        value: production
+      - key: SHETU_DATABASE_URL
+        sync: false
+      - key: SHETU_CORS_ORIGINS
+        sync: false
+      - key: SHETU_AI_PROVIDER
+        value: gemini
+      - key: SHETU_GEMINI_API_KEY
+        sync: false
+      - key: SHETU_GEMINI_MODEL
+        value: gemini-2.5-flash
+      - key: SHETU_ANTHROPIC_API_KEY
+        sync: false

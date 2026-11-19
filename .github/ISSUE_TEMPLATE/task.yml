@@ -1,0 +1,23 @@
+name: Task
+description: A piece of work for the team
+labels: [task]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What needs to happen
+      description: The outcome, not the steps.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [web, api, ai, rules, data, deploy, docs, pitch]
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: How we will know it is finished.
