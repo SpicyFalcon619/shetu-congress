@@ -25,7 +25,7 @@
 </p>
 
 <p align="center">
-  <a href="https://shetu-delta.vercel.app"><b>Live app</b></a> ·
+  <a href="https://shetu-congress.vercel.app"><b>Live app</b></a> ·
   <a href="https://shetu-api.onrender.com">API status</a> ·
   <a href="https://shetu-api.onrender.com/docs">API reference</a> ·
   <a href="#using-the-demo">Demo guide</a>
@@ -67,7 +67,7 @@
 
 | | Link | Notes |
 |---|---|---|
-| **App** | https://shetu-delta.vercel.app | Pick a demo account on the sign-in page. Start with **Rafiq Ahmed** (manager) or **Nusrat Jahan** (employee) |
+| **App** | https://shetu-congress.vercel.app | Pick a demo account on the sign-in page. Start with **Rafiq Ahmed** (manager) or **Nusrat Jahan** (employee) |
 | **API status** | https://shetu-api.onrender.com | Branded status page: live database and AI checks, version, uptime |
 | **API reference** | https://shetu-api.onrender.com/docs | Interactive API reference (Scalar) generated from the OpenAPI spec |
 | **Health** | https://shetu-api.onrender.com/healthz | A page in the browser, JSON for monitors (same URL, content negotiation) |
@@ -498,7 +498,7 @@ The live demo runs on three managed services, all on free plans:
 | Variable | Value |
 |---|---|
 | `SHETU_DATABASE_URL` | the Neon connection string |
-| `SHETU_CORS_ORIGINS` | `["https://shetu-delta.vercel.app","http://localhost:3000"]` |
+| `SHETU_CORS_ORIGINS` | `["https://shetu-congress.vercel.app","https://shetu-delta.vercel.app","http://localhost:3000"]` |
 | `SHETU_AI_PROVIDER` / `SHETU_AI_FALLBACK` | `groq` / `gemini` |
 | `SHETU_GROQ_API_KEY`, `SHETU_GROQ_MODEL` | key, `qwen/qwen3.8-27b` |
 | `SHETU_GEMINI_API_KEY`, `SHETU_GEMINI_MODEL` | key, `gemini-3.5-flash` |

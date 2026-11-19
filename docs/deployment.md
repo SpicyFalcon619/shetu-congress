@@ -6,7 +6,7 @@ Shetu runs on three managed services, all on free plans. Set each up once; after
 |---|---|---|
 | Database | Neon (PostgreSQL) | private connection string |
 | API | Render (Docker) | https://shetu-api.onrender.com |
-| Web | Vercel (Next.js) | https://shetu-delta.vercel.app |
+| Web | Vercel (Next.js) | https://shetu-congress.vercel.app |
 
 Keys and connection strings go only into each service's settings. Never commit them and never paste them into chats or issues.
 
@@ -38,7 +38,7 @@ The schema is created by Alembic when the API starts; nothing needs to be run in
 
    ```
    SHETU_DATABASE_URL=<Neon connection string>
-   SHETU_CORS_ORIGINS=["https://shetu-delta.vercel.app","http://localhost:3000"]
+   SHETU_CORS_ORIGINS=["https://shetu-congress.vercel.app","https://shetu-delta.vercel.app","http://localhost:3000"]
    SHETU_AI_PROVIDER=groq
    SHETU_AI_FALLBACK=gemini
    SHETU_GROQ_API_KEY=<Groq key>
@@ -54,17 +54,18 @@ The free instance sleeps after about 15 minutes without traffic and takes up to 
 
 ## 3. Web: Vercel
 
-From the web app folder, with the Vercel CLI:
+First-time setup with the Vercel CLI, run from the web app folder:
 
 ```powershell
 cd apps/web
 npx vercel login
 npx vercel link            # Create a new project → name "shetu" → connect the Git repository → code directory ./ → do not customize settings
 npx vercel env add NEXT_PUBLIC_API_URL production   # value: https://shetu-api.onrender.com
-npx vercel --prod
 ```
 
-The project is linked to the Git repository, so every push to `main` deploys again. The link step writes a local `.env.local` (git-ignored).
+Then in the Vercel dashboard set **Settings → Build and Deployment → Root Directory** to `apps/web`. From then on every push to `main` deploys automatically; no manual deploys are needed. (With the root directory set, a manual `npx vercel --prod` must be run from the repository root, not from `apps/web`.)
+
+The public address `shetu-congress.vercel.app` is a project domain (`npx vercel domains add shetu-congress.vercel.app shetu`); the original `shetu-delta.vercel.app` still works.
 
 ## 4. Connect the two
 
