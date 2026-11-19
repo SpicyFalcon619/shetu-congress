@@ -504,12 +504,13 @@ The design system for the interface is documented in [DESIGN.md](DESIGN.md).
 
 **Team Anomaly**, Department of Computer Science and Engineering, United International University, Dhaka.
 
-| Member |
-|---|
-| Sadia Noman Tonni |
-| Ahmad Maruf Hossain |
-| Mohammad Mahadi Hasan |
-| Nazha Tarannum Roza |
+| Member | GitHub |
+|---|---|
+| Sadia Noman Tonni | [@tonni19](https://github.com/tonni19) |
+| Ahmad Maruf Hossain | [@SpicyFalcon619](https://github.com/SpicyFalcon619) |
+| Mohammad Mahadi Hasan | [@HasanGMS0047](https://github.com/HasanGMS0047) |
+| Nazha Tarannum Roza | |
+| Rowshonur Rahman Rizvy | |
 
 Built for the **International AI Builders Congress 2026** (Idea to Unicorn), organized by CloudCamp Bangladesh with Daffodil International University.
 
