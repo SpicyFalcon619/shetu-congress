@@ -284,7 +284,9 @@ def seed_history(session: Session) -> None:
                 duty_id=duty.id,
                 outcome=ReturnOutcome.STAYS_WITH_COVER if i == 2 else ReturnOutcome.RETURNS,
                 holder_id="jannat" if i == 2 else None,
-                note="He agreed this stays with Jannat." if i == 2 else "Returns to him unchanged.",
+                note="Imran agreed this stays with Jannat."
+                if i == 2
+                else "Returns to Imran unchanged.",
                 employee_agreed=True,
             )
         )

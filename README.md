@@ -127,15 +127,21 @@ Three roles are always named in the same order: **the employee is the person She
 
 ## Screenshots
 
-> All people, organizations and figures in the screenshots are synthetic.
+> Captured from the live deployment. All people, organizations and figures are synthetic; the interview and Role Map show a real AI run.
 
-| Sign in | Manager overview |
-|---|---|
-| ![Sign-in page with demo accounts](docs/images/sign-in.png) | ![Overview with summary, leave calendar and attention queue](docs/images/overview.png) |
+**Sign in** — demo accounts, each seeing only what its role allows.
+![Sign-in page with suggested demo accounts and a searchable list](docs/images/sign-in.png)
 
-| Cover plan with rule checks | During leave, a change waiting for a decision |
+**Manager overview** — team summary, leave calendar, the attention queue and every leave's stage.
+![Overview dashboard with summary numbers, leave calendar and needs-your-attention list](docs/images/overview.png)
+
+| Interview and Role Map (live AI, Banglish) | Cover plan with rule checks |
 |---|---|
-| ![Cover plan, owner picker and rules inspector](docs/images/cover-plan.png) | ![Leave workspace showing the bridge and an open change](docs/images/leave-during.png) |
+| ![AI interview in Bangla and Banglish building a Role Map with exact quotes](docs/images/interview.png) | ![Cover plan with owner picker, load bars and rules inspector](docs/images/cover-plan.png) |
+
+| During leave: a change waiting for a decision | At return: the return check and R8 |
+|---|---|
+| ![Leave workspace showing the bridge and an open change](docs/images/leave-during.png) | ![Return check showing what returns, what stays and the passing return guard](docs/images/return-check.png) |
 
 ---
 
