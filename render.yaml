@@ -18,10 +18,16 @@ services:
       - key: SHETU_CORS_ORIGINS
         sync: false
       - key: SHETU_AI_PROVIDER
+        value: groq
+      - key: SHETU_AI_FALLBACK
         value: gemini
+      - key: SHETU_GROQ_API_KEY
+        sync: false
+      - key: SHETU_GROQ_MODEL
+        value: qwen/qwen3.8-27b
       - key: SHETU_GEMINI_API_KEY
         sync: false
       - key: SHETU_GEMINI_MODEL
-        value: gemini-2.5-flash
+        value: gemini-3.5-flash
       - key: SHETU_ANTHROPIC_API_KEY
         sync: false

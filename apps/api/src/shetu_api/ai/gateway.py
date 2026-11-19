@@ -42,8 +42,10 @@ class GeminiProvider:
 
     def __init__(self, api_key: str, model: str) -> None:
         from google import genai
+        from google.genai import types
 
-        self._client = genai.Client(api_key=api_key)
+        # Fail fast instead of hanging when the service is overloaded; the fallback takes over.
+        self._client = genai.Client(api_key=api_key, http_options=types.HttpOptions(timeout=45_000))
         self._model = model
 
     def generate(self, *, task: str, system: str, prompt: str, schema: type[T]) -> T:
@@ -213,28 +215,65 @@ class Gateway:
         raise AIError(f"{task}: no valid reply after {MAX_ATTEMPTS} attempts") from last
 
 
-def build_provider(settings: Settings) -> Provider:
-    provider: Provider
-    if settings.ai_provider == "gemini":
+def _single(name: str, settings: Settings) -> Provider:
+    if name == "gemini":
         if not settings.gemini_api_key:
             raise AIError("SHETU_GEMINI_API_KEY is not set")
-        provider = GeminiProvider(settings.gemini_api_key, settings.gemini_model)
-    elif settings.ai_provider == "anthropic":
+        return GeminiProvider(settings.gemini_api_key, settings.gemini_model)
+    if name == "anthropic":
         if not settings.anthropic_api_key:
             raise AIError("SHETU_ANTHROPIC_API_KEY is not set")
-        provider = AnthropicProvider(settings.anthropic_api_key, settings.anthropic_model)
-    elif settings.ai_provider == "groq":
+        return AnthropicProvider(settings.anthropic_api_key, settings.anthropic_model)
+    if name == "groq":
         if not settings.groq_api_key:
             raise AIError("SHETU_GROQ_API_KEY is not set")
-        provider = OpenAICompatibleProvider(
+        return OpenAICompatibleProvider(
             "groq", settings.groq_base_url, settings.groq_api_key, settings.groq_model
         )
-    elif settings.ai_provider == "local":
-        provider = OpenAICompatibleProvider(
+    if name == "local":
+        return OpenAICompatibleProvider(
             "local", settings.local_base_url, settings.local_api_key, settings.local_model
         )
-    else:
+    return ReplayProvider(settings.replay_dir)
+
+
+class FallbackProvider:
+    """Tries each provider in order; moves on when one fails (overloaded, rate-limited, down)."""
+
+    def __init__(self, providers: list[Provider]) -> None:
+        self._providers = providers
+        self.name = "+".join(p.name for p in providers)
+
+    def generate(self, *, task: str, system: str, prompt: str, schema: type[T]) -> T:
+        last: Exception | None = None
+        for provider in self._providers:
+            try:
+                return provider.generate(task=task, system=system, prompt=prompt, schema=schema)
+            except (ValidationError, json.JSONDecodeError):
+                raise
+            except Exception as exc:  # provider errors: overload, quota, network, timeout
+                last = exc
+                log.warning("ai.fallback", task=task, failed=provider.name, error=str(exc)[:200])
+        raise AIError(f"{task}: every provider failed; last error: {last}") from last
+
+
+def build_provider(settings: Settings) -> Provider:
+    if settings.ai_provider == "replay":
         return ReplayProvider(settings.replay_dir)
+    names = [settings.ai_provider] + [
+        n.strip()
+        for n in settings.ai_fallback.split(",")
+        if n.strip() and n.strip() != settings.ai_provider
+    ]
+    chain: list[Provider] = []
+    for name in names:
+        try:
+            chain.append(_single(name, settings))
+        except AIError:
+            if name == settings.ai_provider:
+                raise
+            log.warning("ai.fallback_unavailable", provider=name)
+    provider: Provider = chain[0] if len(chain) == 1 else FallbackProvider(chain)
     if settings.ai_record:
         provider = RecordingProvider(provider, settings.replay_dir)
     return provider

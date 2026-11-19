@@ -21,14 +21,16 @@ class Settings(BaseSettings):
     # "groq" and "local" both use the OpenAI-compatible chat API; "local" means a model running on
     # the organization's own machine (Ollama, LM Studio, llama.cpp, vLLM), so no data leaves it.
     ai_provider: Literal["gemini", "anthropic", "groq", "local", "replay"] = "replay"
+    # Comma-separated providers to try, in order, when the main one fails.
+    ai_fallback: str = ""
     ai_record: bool = False
     replay_dir: Path = API_ROOT / "fixtures" / "replay"
     gemini_api_key: str | None = None
-    gemini_model: str = "gemini-2.5-flash"
+    gemini_model: str = "gemini-3.5-flash"
     anthropic_api_key: str | None = None
     anthropic_model: str = "claude-sonnet-5-5"
     groq_api_key: str | None = None
-    groq_model: str = "llama-3.3-70b-versatile"
+    groq_model: str = "qwen/qwen3.8-27b"
     groq_base_url: str = "https://api.groq.com/openai/v1"
     local_base_url: str = "http://localhost:11434/v1"
     local_model: str = "qwen3:4b"

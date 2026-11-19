@@ -183,6 +183,7 @@ Design choices that keep the AI honest:
 - **Schema-constrained output.** Every reply must validate against a Pydantic model in [`ai/schemas.py`](apps/api/src/shetu_api/ai/schemas.py). An invalid reply is retried once; a second failure returns a clear error, never bad data.
 - **Grounding.** "Said" duties must carry the employee's exact words, and R1 verifies them against the transcript.
 - **References, not free text.** The planner refers to duties by short refs and to people by known ids; unknown ids are discarded.
+- **Automatic fallback.** If the main provider is overloaded, rate-limited or down, the gateway retries on the next one in `SHETU_AI_FALLBACK`, so a live demo survives an outage.
 - **One gateway.** [`ai/gateway.py`](apps/api/src/shetu_api/ai/gateway.py) is the only module that talks to a model. Swapping provider is a configuration change.
 - **A prompt library.** Prompts are reviewed files in [`ai/prompts/`](apps/api/src/shetu_api/ai/prompts), not strings scattered through code.
 - **Out of the model's hands.** It never computes dates or hours, never decides feasibility, never approves anything, and never sees a reason for leave.
@@ -289,10 +290,11 @@ API settings are environment variables prefixed with `SHETU_`, read from `apps/a
 | `SHETU_DATABASE_URL` | SQLite file | Any PostgreSQL URL; `postgres://` URLs from managed providers are accepted |
 | `SHETU_CORS_ORIGINS` | `["http://localhost:3000"]` | Origins allowed to call the API |
 | `SHETU_AI_PROVIDER` | `replay` | `gemini`, `anthropic`, `groq`, `local` or `replay` |
+| `SHETU_AI_FALLBACK` | empty | Comma-separated providers to try in order if the main one fails, e.g. `gemini` |
 | `SHETU_AI_RECORD` | `false` | Save every live reply under `fixtures/replay` for later replay |
-| `SHETU_GEMINI_API_KEY` / `SHETU_GEMINI_MODEL` | – / `gemini-2.5-flash` | Google Gemini |
+| `SHETU_GEMINI_API_KEY` / `SHETU_GEMINI_MODEL` | – / `gemini-3.5-flash` | Google Gemini |
 | `SHETU_ANTHROPIC_API_KEY` / `SHETU_ANTHROPIC_MODEL` | – / `claude-sonnet-5-5` | Anthropic Claude |
-| `SHETU_GROQ_API_KEY` / `SHETU_GROQ_MODEL` | – / `llama-3.3-70b-versatile` | Groq |
+| `SHETU_GROQ_API_KEY` / `SHETU_GROQ_MODEL` | – / `qwen/qwen3.8-27b` | Groq |
 | `SHETU_LOCAL_BASE_URL` / `SHETU_LOCAL_MODEL` | `http://localhost:11434/v1` / `qwen3:4b` | Any local OpenAI-compatible server |
 | `SHETU_SEED_ON_STARTUP` | `true` | Insert the synthetic demo data into an empty database |
 

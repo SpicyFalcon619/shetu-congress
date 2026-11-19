@@ -26,7 +26,7 @@ The free instance sleeps after inactivity and takes about a minute to wake. Open
 
 ## Choosing the model
 
-`SHETU_GEMINI_MODEL` defaults to `gemini-2.5-flash`. Confirm the model is still offered in Google AI Studio before the demo, and change the variable if not; no code change is needed.
+`SHETU_GEMINI_MODEL` defaults to `gemini-3.5-flash`. Confirm the model is still offered in Google AI Studio before the demo, and change the variable if not; no code change is needed.
 
 ## Resetting the demo
 
