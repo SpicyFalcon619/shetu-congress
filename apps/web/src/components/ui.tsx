@@ -1,101 +1,88 @@
 import clsx from "clsx";
+import { AlertCircle } from "lucide-react";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-export function Eyebrow({ children, className }: { children: ReactNode; className?: string }) {
+export function Panel({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <p
-      className={clsx(
-        "border-l-4 border-crimson pl-2.5 text-xs leading-tight font-extrabold tracking-wider text-crimson uppercase",
-        className,
-      )}
-    >
-      {children}
-    </p>
-  );
-}
-
-/** Deck-style headline: ink text with the key phrase in crimson, ending in a full stop. */
-export function Headline({
-  lead,
-  accent,
-  as: Tag = "h1",
-}: {
-  lead: string;
-  accent?: string;
-  as?: "h1" | "h2";
-}) {
-  return (
-    <Tag
-      className={clsx(
-        "font-extrabold tracking-tight text-balance",
-        Tag === "h1" ? "text-3xl leading-[1.1] sm:text-4xl" : "text-2xl leading-tight",
-      )}
-    >
-      {lead} {accent && <span className="text-crimson">{accent}</span>}
-    </Tag>
-  );
-}
-
-export function Card({ children, className }: { children: ReactNode; className?: string }) {
-  return (
-    <section
-      className={clsx(
-        "rounded-xl bg-card p-5 shadow-[0_1px_3px_rgba(34,32,35,.08)] ring-1 ring-line",
-        className,
-      )}
-    >
+    <section className={clsx("min-w-0 rounded-xl border border-line bg-panel", className)}>
       {children}
     </section>
   );
 }
 
+export function PanelHeader({
+  title,
+  description,
+  actions,
+}: {
+  title: ReactNode;
+  description?: ReactNode;
+  actions?: ReactNode;
+}) {
+  return (
+    <header className="flex flex-wrap items-start justify-between gap-3 border-b border-line px-5 py-4">
+      <div className="min-w-0">
+        <h2 className="text-[15px] leading-6 font-bold text-ink">{title}</h2>
+        {description && <p className="mt-0.5 text-[13px] text-muted">{description}</p>}
+      </div>
+      {actions && <div className="flex shrink-0 items-center gap-2">{actions}</div>}
+    </header>
+  );
+}
+
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "dark" | "ghost";
+  variant?: "primary" | "secondary" | "ghost";
+  size?: "sm" | "md";
   busy?: boolean;
 };
 
-export function Button({ variant = "primary", busy, disabled, className, children, ...rest }: ButtonProps) {
+export function Button({
+  variant = "primary",
+  size = "md",
+  busy,
+  disabled,
+  className,
+  children,
+  type = "button",
+  ...rest
+}: ButtonProps) {
   return (
     <button
       {...rest}
+      type={type}
       disabled={disabled || busy}
       className={clsx(
-        "inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-bold transition",
-        "disabled:cursor-not-allowed disabled:opacity-45",
-        variant === "primary" && "bg-crimson text-white hover:bg-crimson-deep",
-        variant === "dark" && "bg-ink text-white hover:bg-black",
-        variant === "ghost" && "bg-transparent text-ink ring-1 ring-line hover:ring-muted",
+        "inline-flex items-center justify-center gap-1.5 rounded-lg font-semibold whitespace-nowrap transition-[background-color,box-shadow,color] duration-150",
+        "disabled:cursor-not-allowed disabled:opacity-50",
+        size === "md" ? "h-9 px-3.5 text-[13px]" : "h-7 px-2.5 text-xs",
+        variant === "primary" &&
+          "bg-crimson text-white shadow-[0_1px_2px_rgba(122,5,29,.25)] hover:bg-crimson-ink",
+        variant === "secondary" &&
+          "border border-line-strong bg-panel text-ink shadow-[0_1px_2px_rgba(34,32,35,.06)] hover:bg-sunk",
+        variant === "ghost" && "text-ink-2 hover:bg-sunk hover:text-ink",
         className,
       )}
     >
-      {busy && <Spinner />}
+      {busy && (
+        <span
+          aria-hidden
+          className="size-3.5 animate-spin rounded-full border-2 border-current border-r-transparent"
+        />
+      )}
       {children}
     </button>
   );
 }
 
-export function Spinner() {
-  return (
-    <span
-      aria-hidden
-      className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-r-transparent"
-    />
-  );
-}
+export type Tone = "neutral" | "crimson" | "gold" | "leaf";
 
-export function Pill({
-  tone = "neutral",
-  children,
-}: {
-  tone?: "neutral" | "crimson" | "gold" | "leaf";
-  children: ReactNode;
-}) {
+export function Badge({ tone = "neutral", children }: { tone?: Tone; children: ReactNode }) {
   return (
     <span
       className={clsx(
-        "inline-flex items-center rounded-full px-2.5 py-1 text-xs leading-none font-bold whitespace-nowrap",
-        tone === "neutral" && "bg-sunk text-muted",
-        tone === "crimson" && "bg-blush text-crimson-deep",
+        "inline-flex h-5 items-center gap-1 rounded-md px-1.5 text-2xs font-semibold whitespace-nowrap",
+        tone === "neutral" && "bg-sunk text-ink-2",
+        tone === "crimson" && "bg-blush text-crimson-ink",
         tone === "gold" && "bg-gold-soft text-gold-ink",
         tone === "leaf" && "bg-leaf-soft text-leaf",
       )}
@@ -105,21 +92,66 @@ export function Pill({
   );
 }
 
+export function Avatar({ name, size = "md" }: { name: string; size?: "sm" | "md" }) {
+  const initials = name
+    .replace(/^Dr\.\s*/, "")
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("");
+  return (
+    <span
+      aria-hidden
+      className={clsx(
+        "inline-flex shrink-0 items-center justify-center rounded-full bg-blush font-bold text-crimson-ink",
+        size === "md" ? "size-8 text-xs" : "size-6 text-2xs",
+      )}
+    >
+      {initials}
+    </span>
+  );
+}
+
 export function ErrorNote({ message }: { message: string | null | undefined }) {
   if (!message) return null;
   return (
-    <p role="alert" className="mt-3 rounded-lg bg-blush px-4 py-3 text-sm font-semibold text-crimson-deep">
+    <p
+      role="alert"
+      className="mt-3 flex items-start gap-2 rounded-lg bg-blush px-3 py-2.5 text-[13px] text-crimson-ink"
+    >
+      <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden />
       {message}
     </p>
   );
 }
 
-export function SyntheticBanner() {
+export function Empty({ title, children }: { title: string; children?: ReactNode }) {
   return (
-    <div className="bg-ink text-center text-xs font-semibold tracking-wide text-paper">
-      <p className="mx-auto max-w-6xl px-4 py-1.5">
-        Synthetic demo data. Every person, organization and figure here is invented.
-      </p>
+    <div className="px-5 py-10 text-center">
+      <p className="font-semibold text-ink">{title}</p>
+      {children && <div className="mx-auto mt-1 max-w-sm text-[13px] text-muted">{children}</div>}
+    </div>
+  );
+}
+
+export function PageHeader({
+  title,
+  description,
+  actions,
+}: {
+  title: ReactNode;
+  description?: ReactNode;
+  actions?: ReactNode;
+}) {
+  return (
+    <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="min-w-0">
+        <h1 className="text-2xl leading-tight font-extrabold tracking-[-0.02em] text-balance text-ink">
+          {title}
+        </h1>
+        {description && <p className="mt-1 text-[13px] text-muted">{description}</p>}
+      </div>
+      {actions}
     </div>
   );
 }

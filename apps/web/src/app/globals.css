@@ -1,55 +1,80 @@
 @import "tailwindcss";
 
-/* Shetu brand, matching the proposal deck: warm paper, crimson emphasis, ink text, white cards.
-   One light theme by design. */
+/* Shetu product theme. Light only, from the team's deck: paper ground, white panels,
+   ink type, crimson for action and blocking state, deep crimson for the navigation rail. */
 @theme {
   --color-paper: #f8f4ec;
-  --color-card: #ffffff;
-  --color-sunk: #f1e9dc;
-  --color-line: #e8dfd2;
+  --color-panel: #ffffff;
+  --color-sunk: #f3ede2;
+  --color-line: #e7dfd2;
+  --color-line-strong: #d6cbb9;
   --color-ink: #222023;
-  --color-muted: #5e5659;
+  --color-ink-2: #4a4448;
+  --color-muted: #6f676a;
   --color-crimson: #bf092f;
   --color-crimson-deep: #8c0622;
+  --color-crimson-ink: #a10727;
   --color-blush: #fbe6ea;
   --color-rose: #f2b8c3;
+  --color-rail: #7a051d;
+  --color-rail-hover: #8f0a26;
+  --color-rail-text: #f9dfe4;
   --color-gold: #d99a1e;
   --color-gold-soft: #fbf0d8;
   --color-gold-ink: #7a520a;
-  --color-leaf: #23794a;
-  --color-leaf-soft: #e1f5e9;
+  --color-leaf: #1f7a48;
+  --color-leaf-soft: #e1f3e7;
 
   --font-sans: var(--font-jakarta), "Segoe UI", system-ui, sans-serif;
   --font-bangla: var(--font-hind), "Nirmala UI", sans-serif;
+
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
   color-scheme: light;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   font-variant-numeric: tabular-nums;
+  caret-color: var(--color-crimson);
 }
 
 ::selection {
-  background: var(--color-crimson);
-  color: #fff;
+  background: var(--color-blush);
+  color: var(--color-crimson-deep);
 }
 
 :focus-visible {
   outline: 2px solid var(--color-crimson);
   outline-offset: 2px;
+  border-radius: 4px;
+}
+
+a {
+  text-underline-offset: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation: none !important;
-    transition: none !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

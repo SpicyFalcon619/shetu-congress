@@ -12,6 +12,24 @@ export function useLeave(id: string, personaId: string | undefined) {
   });
 }
 
+export function useChanges(id: string, personaId: string | undefined) {
+  return useQuery({
+    queryKey: ["changes", id, personaId],
+    queryFn: () =>
+      unwrap(api.GET("/api/v1/leaves/{leave_id}/changes", { params: { path: { leave_id: id } } })),
+    enabled: Boolean(personaId),
+  });
+}
+
+export function useReturn(id: string, personaId: string | undefined) {
+  return useQuery({
+    queryKey: ["return", id, personaId],
+    queryFn: () =>
+      unwrap(api.GET("/api/v1/leaves/{leave_id}/return", { params: { path: { leave_id: id } } })),
+    enabled: Boolean(personaId),
+  });
+}
+
 /** A mutation whose result is the updated leave; it replaces the cached copy. */
 export function useLeaveAction<V>(
   id: string,
@@ -25,6 +43,7 @@ export function useLeaveAction<V>(
       qc.setQueryData(["leave", id, personaId], data);
       void qc.invalidateQueries({ queryKey: ["return", id] });
       void qc.invalidateQueries({ queryKey: ["changes", id] });
+      void qc.invalidateQueries({ queryKey: ["overview"] });
     },
   });
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Hind_Siliguri, Plus_Jakarta_Sans } from "next/font/google";
 
-import { SiteHeader } from "@/components/site-header";
+import { AppShell } from "@/components/app-shell";
 
 import { Providers } from "./providers";
 import "./globals.css";
@@ -13,8 +13,12 @@ const hind = Hind_Siliguri({
   variable: "--font-hind",
 });
 
+// The workspace reads the chosen persona in the browser, so navigations are not expected to be
+// instant from a server prefetch. Opt out of instant-navigation validation.
+export const instant = false;
+
 export const metadata: Metadata = {
-  title: "Shetu",
+  title: { default: "Shetu", template: "%s · Shetu" },
   description:
     "Shetu keeps a job safe while its owner is on leave: it finds the work nobody wrote down, checks the cover plan and guards the return.",
 };
@@ -22,10 +26,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${jakarta.variable} ${hind.variable}`}>
-      <body className="min-h-screen">
+      <body>
         <Providers>
-          <SiteHeader />
-          <main className="mx-auto w-full max-w-6xl px-4 pt-8 pb-20 sm:px-6">{children}</main>
+          <AppShell>{children}</AppShell>
         </Providers>
       </body>
     </html>
