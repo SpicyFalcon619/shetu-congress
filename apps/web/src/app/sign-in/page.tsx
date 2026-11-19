@@ -31,8 +31,8 @@ export default function SignInPage() {
   );
 
   return (
-    <div className="grid min-h-screen lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-      <aside className="relative hidden flex-col justify-between overflow-hidden bg-crimson-deep p-10 text-white lg:flex">
+    <div className="grid min-h-dvh lg:h-dvh lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:overflow-hidden">
+      <aside className="relative hidden flex-col justify-between overflow-hidden bg-crimson-deep p-10 text-white lg:flex lg:h-dvh">
         <div className="flex items-center gap-3">
           <ArchLogo onDark className="h-7 w-auto" />
           <span className="text-lg font-semibold">
@@ -57,7 +57,7 @@ export default function SignInPage() {
         </p>
       </aside>
 
-      <main className="flex items-center justify-center bg-background px-4 py-10 sm:px-8">
+      <main className="flex items-center justify-center bg-background px-4 py-8 sm:px-8 lg:h-dvh lg:overflow-y-auto">
         <div className="w-full max-w-md">
           <div className="mb-8 flex items-center gap-2.5 lg:hidden">
             <ArchLogo className="h-6 w-auto" />
@@ -70,7 +70,7 @@ export default function SignInPage() {
           </p>
 
           {suggested.length > 0 && (
-            <div className="mt-6 grid gap-2">
+            <div className="mt-5 grid gap-2">
               {suggested.map((p) => (
                 <button
                   key={p.id}
@@ -91,15 +91,15 @@ export default function SignInPage() {
             </div>
           )}
 
-          <div className="mt-6 flex items-center gap-3 text-2xs font-medium text-muted-foreground">
+          <div className="mt-4 flex items-center gap-3 text-2xs font-medium text-muted-foreground">
             <span className="h-px flex-1 bg-border" />
             or any other account
             <span className="h-px flex-1 bg-border" />
           </div>
 
-          <Command className="mt-4 rounded-xl border bg-card shadow-[0_1px_2px_rgba(34,32,35,0.04)]">
+          <Command className="mt-3 rounded-xl border bg-card shadow-[0_1px_2px_rgba(34,32,35,0.04)]">
             <CommandInput placeholder="Search people" />
-            <CommandList className="max-h-72">
+            <CommandList className="max-h-[max(8.5rem,calc(100dvh-29rem))]">
               <CommandEmpty>No one by that name.</CommandEmpty>
               {orgsOf(people).map((org) => (
                 <CommandGroup key={org} heading={org}>
@@ -119,7 +119,7 @@ export default function SignInPage() {
               ))}
             </CommandList>
           </Command>
-          <p className="mt-6 text-center text-2xs text-muted-foreground">
+          <p className="mt-4 text-center text-2xs text-muted-foreground">
             Synthetic demo data. Every person and organization here is invented.
           </p>
         </div>
