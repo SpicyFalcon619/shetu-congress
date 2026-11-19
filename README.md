@@ -509,8 +509,8 @@ The design system for the interface is documented in [DESIGN.md](DESIGN.md).
 | Sadia Noman Tonni | [@tonni19](https://github.com/tonni19) |
 | Ahmad Maruf Hossain | [@SpicyFalcon619](https://github.com/SpicyFalcon619) |
 | Mohammad Mahadi Hasan | [@HasanGMS0047](https://github.com/HasanGMS0047) |
-| Nazha Tarannum Roza | |
-| Rowshonur Rahman Rizvy | |
+| Nazha Tarannum Roza | [@NazhaTarannum](https://github.com/NazhaTarannum) |
+| Rowshonur Rahman Rizvy | [@rizvy-7](https://github.com/rizvy-7) |
 
 Built for the **International AI Builders Congress 2026** (Idea to Unicorn), organized by CloudCamp Bangladesh with Daffodil International University.
 
