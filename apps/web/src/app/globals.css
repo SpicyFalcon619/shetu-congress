@@ -129,7 +129,7 @@
     @apply bg-background text-foreground antialiased;
     font-size: 14px;
     font-variant-numeric: tabular-nums;
-    caret-color: var(--color-crimson);
+    caret-color: var(--color-ink);
   }
   ::selection {
     background: var(--color-blush);
