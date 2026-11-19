@@ -1,0 +1,8 @@
+{"assignments": [
+ {"duty_ref": "D1", "cover_person_id": "karim", "rationale": "Already reconciles vendor payments against the same ledger."},
+ {"duty_ref": "D2", "cover_person_id": "karim", "rationale": "Handles VAT and TDS for vendor payments."},
+ {"duty_ref": "D3", "cover_person_id": "karim", "rationale": "Knows the bank accounts from daily payments."},
+ {"duty_ref": "D4", "cover_person_id": "sumaiya", "rationale": "Runs field office petty cash day to day."},
+ {"duty_ref": "D5", "cover_person_id": "tanvir", "rationale": "Works on grant compliance and audit files."},
+ {"duty_ref": "D6", "cover_person_id": "sumaiya", "rationale": "Already prepares payroll."}
+]}

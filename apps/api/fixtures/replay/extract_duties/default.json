@@ -1,0 +1,8 @@
+{"duties": [
+ {"title": "Monthly donor reconciliation (Donor A)", "detail": "Reconciles Donor A expenses against the ledger before the 10th of each month.", "frequency": "monthly", "hours_per_week": 4, "evidence": "said", "quote": "protimash er 10 tarikh er age Donor A er expense reconcile kori"},
+ {"title": "Quarterly VAT and TDS certificates", "detail": "Collects VAT and TDS certificates from vendors every quarter.", "frequency": "quarterly", "hours_per_week": 3, "evidence": "said", "quote": "VAT ar TDS certificate vendor der theke ami collect kori"},
+ {"title": "Bank relationship contact", "detail": "The bank's relationship manager contacts only her.", "frequency": "weekly", "hours_per_week": 2, "evidence": "said", "quote": "bank er RM shudhu amake call dey"},
+ {"title": "Petty cash approvals above Tk 20,000", "detail": "Approves field-office petty cash requests above Tk 20,000.", "frequency": "weekly", "hours_per_week": 2, "evidence": "said", "quote": "20 hajar takar upore petty cash ami approve kori"},
+ {"title": "Annual audit preparation folder", "detail": "Prepares the audit folder each March.", "frequency": "yearly", "hours_per_week": 1, "evidence": "documented", "quote": null},
+ {"title": "Payroll sheet check for junior colleague", "detail": "Likely checks a junior colleague's payroll sheet before it goes out.", "frequency": "monthly", "hours_per_week": 1, "evidence": "suggested", "quote": null}
+]}
