@@ -14,10 +14,10 @@ export const STATUS_LABEL: Record<string, string> = {
 
 export const RULE_NAME: Record<string, string> = {
   R1: "Quote check",
-  R2: "Her confirmation",
+  R2: "Employee confirmation",
   R3: "Full coverage",
   R4: "Capacity",
-  R5: "No work sent to her",
+  R5: "Nothing sent during leave",
   R6: "Every assignment ends",
   R7: "Fresh facts",
   R8: "Return guard",

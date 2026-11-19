@@ -155,10 +155,10 @@ Every rule is a pure Python function in [`apps/api/src/shetu_api/domain/rules.py
 | Rule | Name | Checks |
 |---|---|---|
 | **R1** | Quote check | A duty marked "said" quotes words that really appear in the interview (after Unicode normalization). Otherwise it is downgraded to "suggested" and flagged |
-| **R2** | Her confirmation | Suggested duties count only after the employee confirms them |
+| **R2** | Employee confirmation | Suggested duties count only after the employee confirms them |
 | **R3** | Full coverage | Every confirmed duty has an approved owner for every day of the leave; gaps are reported by date |
 | **R4** | Capacity | No cover person carries more weekly hours than they said they can spare, checked week by week |
-| **R5** | No work sent to her | Nothing is assigned to the person on leave while she is away |
+| **R5** | Nothing sent during leave | Nothing is assigned to the person on leave while they are away |
 | **R6** | Every assignment ends | Temporary assignments end by the return date plus a handback window (14 days by default) |
 | **R7** | Fresh facts | Availability answers older than 30 days must be asked again before they are used |
 | **R8** | Return guard | A duty that stays with a colleague without her agreement blocks the leave from closing |

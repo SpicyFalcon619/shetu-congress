@@ -1,0 +1,34 @@
+{
+  "assignments": [
+    {
+      "duty_ref": "D1",
+      "cover_person_id": "mehedi",
+      "rationale": "Mehedi has specific skills in lab systems which directly align with maintaining the laboratory booking system."
+    },
+    {
+      "duty_ref": "D2",
+      "cover_person_id": "mehedi",
+      "rationale": "As a Lecturer in CSE, Mehedi is a suitable faculty member to sign administrative forms for the software club."
+    },
+    {
+      "duty_ref": "D3",
+      "cover_person_id": "ritu",
+      "rationale": "Ritu has explicit skills in thesis supervision, making her the ideal candidate for supervising final-year project groups."
+    },
+    {
+      "duty_ref": "D4",
+      "cover_person_id": "mehedi",
+      "rationale": "Mehedi is a Lecturer in CSE and is the only candidate available to cover the significant teaching load for undergraduate courses."
+    },
+    {
+      "duty_ref": "D5",
+      "cover_person_id": "mehedi",
+      "rationale": "Since Mehedi is covering the teaching duties, it is logical for him to also hold the associated weekly office hours for students."
+    },
+    {
+      "duty_ref": "D6",
+      "cover_person_id": "mehedi",
+      "rationale": "Mehedi is covering the course instruction, so he should also handle the setting and grading of assessments for those specific courses."
+    }
+  ]
+}

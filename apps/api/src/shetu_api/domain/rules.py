@@ -126,7 +126,7 @@ def check_confirmation(duties: Sequence[DutyFact]) -> Finding:
     return Finding(
         Rule.R2_CONFIRMATION,
         False,
-        f"{len(pending)} suggested duties still need her answer: {titles}.",
+        f"{len(pending)} suggested duties still need the employee's answer: {titles}.",
         tuple(d.id for d in pending),
     )
 
@@ -253,7 +253,7 @@ def check_capacity(
 
 
 def check_no_work_to_absent(leave: LeaveWindow, assignments: Sequence[AssignmentFact]) -> Finding:
-    """R5: nothing is assigned to the person on leave while she is away."""
+    """R5: nothing is assigned to the person on leave while they are away."""
     bad = [
         a
         for a in assignments
@@ -262,11 +262,11 @@ def check_no_work_to_absent(leave: LeaveWindow, assignments: Sequence[Assignment
         and a.ends_on >= leave.starts_on
     ]
     if not bad:
-        return Finding(Rule.R5_NO_WORK_TO_ABSENT, True, "Nothing is sent to her during her leave.")
+        return Finding(Rule.R5_NO_WORK_TO_ABSENT, True, "Nothing is sent to the person on leave.")
     return Finding(
         Rule.R5_NO_WORK_TO_ABSENT,
         False,
-        f"{len(bad)} duties are assigned to her while she is on leave.",
+        f"{len(bad)} duties are assigned to the person on leave.",
         tuple(a.duty_id for a in bad),
     )
 
@@ -315,17 +315,19 @@ def check_stale(
 
 
 def check_return(items: Sequence[ReturnFact]) -> Finding:
-    """R8: nothing moves to someone else for good without her agreement."""
+    """R8: nothing moves to someone else for good without the employee's agreement."""
     moved = [i for i in items if i.stays_with_cover and i.employee_agreed is not True]
     if not moved:
         return Finding(
-            Rule.R8_RETURN_GUARD, True, "Nothing has moved for good without her agreement."
+            Rule.R8_RETURN_GUARD,
+            True,
+            "Nothing has moved for good without the employee's agreement.",
         )
     titles = ", ".join(i.title for i in moved)
     return Finding(
         Rule.R8_RETURN_GUARD,
         False,
-        f"Moved for good without her agreement: {titles}. The leave cannot close.",
+        f"Moved for good without the employee's agreement: {titles}. The leave cannot close.",
         tuple(i.duty_id for i in moved),
     )
 

@@ -1,0 +1,52 @@
+{
+  "duties": [
+    {
+      "title": "Maintain lab booking system",
+      "detail": "Maintain the laboratory booking system for the Software Engineering Lab.",
+      "frequency": "ad_hoc",
+      "hours_per_week": 2.0,
+      "evidence": "said",
+      "quote": "Ami lab booking system ta maintain kori"
+    },
+    {
+      "title": "Sign software club event forms",
+      "detail": "Sign event forms for the software club on a monthly basis.",
+      "frequency": "monthly",
+      "hours_per_week": 0.5,
+      "evidence": "said",
+      "quote": "protimash e software club er sob event form ami sign kori"
+    },
+    {
+      "title": "Supervise thesis groups",
+      "detail": "Conduct weekly meetings with thesis groups to supervise final-year projects.",
+      "frequency": "weekly",
+      "hours_per_week": 2.0,
+      "evidence": "said",
+      "quote": "Thesis group er sathe weekly meeting o ami nei"
+    },
+    {
+      "title": "Teach undergraduate CSE courses",
+      "detail": "Teach two undergraduate courses per trimester: Software Engineering and Software Engineering Lab.",
+      "frequency": "weekly",
+      "hours_per_week": 10.0,
+      "evidence": "documented",
+      "quote": null
+    },
+    {
+      "title": "Hold weekly office hours",
+      "detail": "Hold weekly office hours for students.",
+      "frequency": "weekly",
+      "hours_per_week": 2.0,
+      "evidence": "documented",
+      "quote": null
+    },
+    {
+      "title": "Set and grade assessments",
+      "detail": "Set and grade assessments for assigned courses.",
+      "frequency": "weekly",
+      "hours_per_week": 5.0,
+      "evidence": "documented",
+      "quote": null
+    }
+  ]
+}
