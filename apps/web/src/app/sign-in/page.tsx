@@ -41,11 +41,12 @@ export default function SignInPage() {
         </div>
         <div className="max-w-md">
           <p className="text-[40px] leading-[1.08] font-semibold tracking-[-0.03em] text-balance">
-            Map her job. Hold her role. <span className="text-rose">Guard her return.</span>
+            Map the job. Hold the role. <span className="text-rose">Guard the return.</span>
           </p>
           <p className="mt-5 text-[15px] leading-relaxed text-white/75">
             Shetu keeps a job safe while its owner is on leave. It finds the work nobody wrote down, checks
-            every cover plan against clear rules, and makes sure nothing moves for good without her agreement.
+            every cover plan against clear rules, and makes sure nothing moves for good without the
+            employee&rsquo;s agreement.
           </p>
         </div>
         <ArchLogo

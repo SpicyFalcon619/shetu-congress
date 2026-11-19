@@ -47,7 +47,7 @@ Two roles, coordinated by code rather than an agent framework:
 | R5 | Nothing is assigned to the person on leave | `check_no_work_to_absent` |
 | R6 | Every assignment ends by return plus the handback window | `check_assignments_end` |
 | R7 | Availability older than 30 days is asked again | `check_stale` |
-| R8 | Nothing stays with cover for good without her agreement | `check_return` |
+| R8 | Nothing stays with cover for good without the employee's agreement | `check_return` |
 | R9 | Only the manager approves; every approval is logged | `routes.py`, `auth.py` |
 
 ## Authentication

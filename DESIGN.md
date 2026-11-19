@@ -1,6 +1,6 @@
 ---
 name: Shetu
-description: A bridge from her leave back to her career. Leave cover planning for managers and HR.
+description: A bridge from leave back to work. Leave cover planning for managers and HR.
 colors:
   crimson: "#bf092f"
   crimson-ink: "#a10727"

@@ -5,7 +5,7 @@
 <h1 align="center">Shetu <sub>সেতু</sub></h1>
 
 <p align="center">
-  <b>Map her job. Hold her role. Guard her return.</b><br>
+  <b>Map the job. Hold the role. Guard the return.</b><br>
   Shetu keeps a job safe while its owner is on leave.
 </p>
 
@@ -78,13 +78,13 @@ The API runs on a free instance that sleeps after about 15 minutes without traff
 
 ## Overview
 
-Every long leave creates two worries. The employee worries that her job will not be hers when she comes back. Her manager worries that the work will not get done while she is away. Today the usual answer is a handover document and hope.
+Every long leave creates two worries. The employee worries that their job will not be theirs when they come back. Their manager worries that the work will not get done while they are away. Today the usual answer is a handover document and hope.
 
 **Shetu** turns a planned leave into one shared, checked plan that runs from the first day of planning to the day the leave closes:
 
 1. **Before leave**, an AI interview in Bangla, English or Banglish finds the work nobody wrote down and builds a **Role Map**: every duty with its evidence.
 2. **During leave**, a **cover plan** gives every duty an owner for every day. The AI proposes it, deterministic rules check it, and the manager approves it.
-3. **At return**, a **return check** shows what goes back to her, what changed while she was away, and blocks the leave from closing while anything has moved to someone else for good without her agreement.
+3. **At return**, a **return check** shows what goes back to the employee, what changed during the leave, and blocks the leave from closing while anything has moved to someone else for good without the employee's agreement.
 
 Shetu is designed around maternity leave, the longest and highest-stakes planned leave, and works for any planned leave of two weeks or more. **It never asks why someone is away**: there is no field for the reason, health or family, so the software cannot tell and does not need to.
 
@@ -96,7 +96,7 @@ Shetu is designed around maternity leave, the longest and highest-stakes planned
 
 | What goes wrong today | Who pays for it |
 |---|---|
-| Duties that live only in someone's head are never handed over: a monthly reconciliation for one donor, an approval only she gives, the bank contact who calls only her | The organization, through missed deadlines and audit findings |
+| Duties that live only in someone's head are never handed over: a monthly reconciliation for one donor, an approval only one person gives, the bank contact who calls only them | The organization, through missed deadlines and audit findings |
 | Cover plans are made in a meeting and nobody checks whether the people covering actually have the time | Colleagues, who quietly absorb the overload |
 | Temporary cover slowly becomes permanent, and the person returns to a smaller job | The employee, most often a mother returning from maternity leave |
 | Nobody keeps a record of who agreed to what | HR, when a dispute or audit arrives |
@@ -109,17 +109,17 @@ Shetu does not manage day-to-day work and is not a workload balancer. It manages
 
 ```mermaid
 flowchart LR
-    A["Before leave<br/><b>Map her job</b><br/>AI interview builds the Role Map"] --> B["Cover plan<br/><b>Hold her role</b><br/>AI proposes, rules check, manager approves"]
+    A["Before leave<br/><b>Map the job</b><br/>AI interview builds the Role Map"] --> B["Cover plan<br/><b>Hold the role</b><br/>AI proposes, rules check, manager approves"]
     B --> C["During leave<br/><b>Hold the plan</b><br/>Changes reported in one sentence"]
-    C --> D["At return<br/><b>Guard her return</b><br/>Return check; R8 blocks silent reassignment"]
+    C --> D["At return<br/><b>Guard the return</b><br/>Return check; R8 blocks silent reassignment"]
 ```
 
 | Stage | Who acts | What the AI does | What the code decides |
 |---|---|---|---|
-| Before leave | Employee | Asks one question at a time; extracts duties with exact quotes | R1 quote check, R2 her confirmation |
-| Cover plan | Manager | Proposes a colleague for each duty, with a reason | R3 coverage, R4 capacity, R5 nothing sent to her, R6 every assignment ends, R7 fresh facts |
+| Before leave | Employee | Asks one question at a time; extracts duties with exact quotes | R1 quote check, R2 employee confirmation |
+| Cover plan | Manager | Proposes a colleague for each duty, with a reason | R3 coverage, R4 capacity, R5 nothing sent during leave, R6 every assignment ends, R7 fresh facts |
 | During leave | Manager, covering colleagues | Turns a one-sentence report into a structured change | Re-checks the plan; the manager approves or rejects |
-| At return | Employee, manager | Explains the comparison in Bangla and English | R8: nothing moves for good without her agreement |
+| At return | Employee, manager | Explains the comparison in Bangla and English | R8: nothing moves for good without the employee's agreement |
 
 Three roles are always named in the same order: **the employee is the person Shetu protects, the manager is the person who uses it most, and the organization is the customer.**
 
@@ -143,8 +143,8 @@ Three roles are always named in the same order: **the employee is the person She
 
 **For the employee**
 - Interview in Bangla, English or Banglish; one question at a time, about 15 minutes
-- Role Map where every duty shows its evidence: *said* (with her exact words), *documented* (from the job description) or *suggested* (a question until she answers)
-- Confirms or removes each duty; nothing suggested counts until she says so
+- Role Map where every duty shows its evidence: *said* (with their exact words), *documented* (from the job description) or *suggested* (a question until they answer)
+- Confirms or removes each duty; nothing suggested counts until they say so
 - At return, decides whether a duty stays with a colleague or comes back, with an explanation in both languages
 - Is never contacted during leave
 
@@ -182,7 +182,7 @@ Every rule is a pure Python function in [`apps/api/src/shetu_api/domain/rules.py
 | **R5** | Nothing sent during leave | Nothing is assigned to the person on leave while they are away |
 | **R6** | Every assignment ends | Temporary assignments end by the return date plus a handback window (14 days by default) |
 | **R7** | Fresh facts | Availability answers older than 30 days must be asked again before they are used |
-| **R8** | Return guard | A duty that stays with a colleague without her agreement blocks the leave from closing |
+| **R8** | Return guard | A duty that stays with a colleague without the employee's agreement blocks the leave from closing |
 | **R9** | Approval | Only the manager can approve plans and changes; every approval is written to the audit log |
 
 ---
@@ -368,7 +368,7 @@ A suggested walkthrough for the full lifecycle:
 1. As **Nusrat**, open her leave and run the interview. Confirm the suggested duties.
 2. As **Rafiq**, open Nusrat's leave, choose **Propose cover**, answer the availability question, and watch the capacity rule (R4) fail. Move one duty to a colleague with spare time, then approve.
 3. As **Karim**, report a change in one sentence. As **Rafiq**, approve it and see the plan re-checked.
-4. As **Rafiq**, open **At return** and jump to the return day (demo). One duty has stayed with a colleague without her agreement, so R8 blocks closing.
+4. As **Rafiq**, open **At return** and jump to the return day (demo). One duty has stayed with a colleague without Nusrat's agreement, so R8 blocks closing.
 5. As **Nusrat**, take the duty back or agree it stays, and read the explanation in Bangla and English. As **Rafiq**, close the leave.
 
 ---
@@ -513,10 +513,10 @@ Full step-by-step instructions, including first-time setup, are in [docs/deploym
 ## Privacy, safety and ethics
 
 - **No reason for leave.** Shetu never asks or stores why someone is away. Maternity is a design focus, never a data field, and Shetu is never how a pregnancy becomes known.
-- **Her map, her confirmation.** Suggested duties are questions until the employee answers them, and she sees everything recorded about her job.
+- **Their map, their confirmation.** Suggested duties are questions until the employee answers them, and they see everything recorded about their job.
 - **No scoring of people.** Nothing ranks, rates or estimates how replaceable anyone is. Cover load is shown only so that no colleague is overloaded.
-- **Temporary means temporary.** Every assignment has an end date, and nothing becomes permanent without her agreement (R8).
-- **Nothing sent during leave.** The person on leave is never assigned work or asked to act while she is away (R5).
+- **Temporary means temporary.** Every assignment has an end date, and nothing becomes permanent without the employee's agreement (R8).
+- **Nothing sent during leave.** The person on leave is never assigned work or asked to act while they are away (R5).
 - **People decide.** The AI proposes; only a person approves, and every approval is audited.
 - **Data residency.** The `local` provider keeps all interview text and plans on the organization's own machines.
 - **Synthetic data only.** This repository contains no real personal data.

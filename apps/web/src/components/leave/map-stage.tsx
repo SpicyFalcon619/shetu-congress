@@ -48,7 +48,7 @@ function Interview({ leave, me }: { leave: LeaveDetail; me: Person }) {
         description={
           isEmployee
             ? "Describe your job in Bangla, English or Banglish. Shetu never asks why you are going on leave."
-            : `${first} describes her job; you see the transcript.`
+            : `${first} describes the job; you see the transcript.`
         }
         actions={leave.turns.length > 0 && <Badge>{Math.min(asked, 12)} of about 12 questions</Badge>}
       />
@@ -157,7 +157,7 @@ function RoleMap({ leave, me }: { leave: LeaveDetail; me: Person }) {
     <Panel>
       <PanelHeader
         title="Role Map"
-        description="Every duty carries its evidence: her exact words, the job description, or a suggestion she must confirm."
+        description={`Every duty carries its evidence: ${isEmployee ? "your" : `${leave.employee.name.split(" ")[0]}'s`} exact words, the job description, or a suggestion ${isEmployee ? "you" : "they"} must confirm.`}
       />
       {leave.duties.length > 0 && (
         <dl className="grid grid-cols-3 border-b border-line text-center">
@@ -175,8 +175,9 @@ function RoleMap({ leave, me }: { leave: LeaveDetail; me: Person }) {
       )}
       {pending > 0 && (
         <p className="border-b border-line bg-blush/60 px-5 py-2 text-xs font-semibold text-crimson-ink">
-          {pending} suggested {pending === 1 ? "duty needs" : "duties need"} {isEmployee ? "your" : "her"}{" "}
-          answer before the cover plan can include {pending === 1 ? "it" : "them"} (R2).
+          {pending} suggested {pending === 1 ? "duty needs" : "duties need"}{" "}
+          {isEmployee ? "your" : `${leave.employee.name.split(" ")[0]}'s`} answer before the cover plan can
+          include {pending === 1 ? "it" : "them"} (R2).
         </p>
       )}
       {leave.duties.length === 0 ? (

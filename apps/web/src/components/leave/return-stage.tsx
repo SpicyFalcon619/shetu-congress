@@ -11,7 +11,7 @@ import { useLeaveAction } from "@/lib/leave";
 import { RulesInspector } from "./rules-inspector";
 
 const OUTCOME: Record<string, { label: string; tone: Tone }> = {
-  returns: { label: "Returns to her", tone: "leaf" },
+  returns: { label: "Returns to employee", tone: "leaf" },
   changed: { label: "Changed while away", tone: "gold" },
   stays_with_cover: { label: "Stays with cover", tone: "neutral" },
 };
@@ -57,7 +57,7 @@ export function ReturnStage({ leave, me, view }: { leave: LeaveDetail; me: Perso
         <Panel>
           <PanelHeader
             title="Return check"
-            description={`${first}'s job then and now. Nothing moves to a colleague for good without her agreement.`}
+            description={`${first}'s job then and now. Nothing moves to a colleague for good without ${first}'s agreement.`}
           />
           {items.length === 0 ? (
             <Empty title="Opens on the return date">
@@ -95,7 +95,8 @@ export function ReturnStage({ leave, me, view }: { leave: LeaveDetail; me: Perso
                     <p className="text-xs text-muted-foreground">{i.note}</p>
                     {blocked && (
                       <p className="text-xs font-bold text-crimson-ink">
-                        R8: moved for good without her agreement. The leave cannot close until she decides.
+                        R8: moved for good without {first}&rsquo;s agreement. The leave cannot close until{" "}
+                        {first} decides.
                       </p>
                     )}
                     {blocked && isEmployee && (

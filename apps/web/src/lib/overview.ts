@@ -121,7 +121,7 @@ export function tasksFor(me: Person, rows: LeaveRow[]): Task[] {
           stage: "return",
           tone: "crimson",
           title: `${first}'s return is blocked`,
-          detail: "R8: a duty moved for good without her agreement",
+          detail: `R8: a duty moved for good without ${first}'s agreement`,
         });
     }
     if (me.id === l.employee.id) {

@@ -70,7 +70,7 @@ export function DuringStage({
       <Panel>
         <PanelHeader
           title="Changes during leave"
-          description={`Open changes stay highlighted until ${leave.manager.name} decides. Nothing is ever sent to ${first} while she is away.`}
+          description={`Open changes stay highlighted until ${leave.manager.name} decides. Nothing is ever sent to ${first} during the leave.`}
           actions={
             changes.some((c) => c.status === "proposed") && (
               <Badge tone="gold">{changes.filter((c) => c.status === "proposed").length} open</Badge>

@@ -30,7 +30,7 @@ export function computeStages(leave: LeaveDetail, changes: ChangeRequest[] = [],
     ? {
         id: "map",
         label: "Before leave",
-        verb: "Map her job",
+        verb: "Map the job",
         state: "active",
         note: "Interview not started",
       }
@@ -38,14 +38,14 @@ export function computeStages(leave: LeaveDetail, changes: ChangeRequest[] = [],
       ? {
           id: "map",
           label: "Before leave",
-          verb: "Map her job",
+          verb: "Map the job",
           state: "blocked",
-          note: `${pendingSuggestions} duties need her answer`,
+          note: `${pendingSuggestions} duties need the employee's answer`,
         }
       : {
           id: "map",
           label: "Before leave",
-          verb: "Map her job",
+          verb: "Map the job",
           state: hasDuties ? "done" : "active",
           note: hasDuties ? `${leave.duties.length} duties mapped` : "Interview in progress",
         };
@@ -55,14 +55,14 @@ export function computeStages(leave: LeaveDetail, changes: ChangeRequest[] = [],
       ? {
           id: "cover",
           label: "Cover plan",
-          verb: "Hold her role",
+          verb: "Hold the role",
           state: "blocked",
           note: `${coverFail.rule} ${RULE_NAME[coverFail.rule]} failing`,
         }
       : {
           id: "cover",
           label: "Cover plan",
-          verb: "Hold her role",
+          verb: "Hold the role",
           state: "done",
           note: `Approved · ${leave.assignments.length} assignments`,
         }
@@ -70,7 +70,7 @@ export function computeStages(leave: LeaveDetail, changes: ChangeRequest[] = [],
       ? {
           id: "cover",
           label: "Cover plan",
-          verb: "Hold her role",
+          verb: "Hold the role",
           state: map.state === "done" ? "active" : "waiting",
           note: map.state === "done" ? "Ready to propose" : "Waits for the Role Map",
         }
@@ -78,14 +78,14 @@ export function computeStages(leave: LeaveDetail, changes: ChangeRequest[] = [],
         ? {
             id: "cover",
             label: "Cover plan",
-            verb: "Hold her role",
+            verb: "Hold the role",
             state: "blocked",
             note: `${coverFail.rule} ${RULE_NAME[coverFail.rule]} failing`,
           }
         : {
             id: "cover",
             label: "Cover plan",
-            verb: "Hold her role",
+            verb: "Hold the role",
             state: "active",
             note: "Ready for approval",
           };
@@ -111,27 +111,27 @@ export function computeStages(leave: LeaveDetail, changes: ChangeRequest[] = [],
   const r8 = ret?.finding;
   const back: Stage =
     leave.status === "closed"
-      ? { id: "return", label: "At return", verb: "Guard her return", state: "done", note: "Leave closed" }
+      ? { id: "return", label: "At return", verb: "Guard the return", state: "done", note: "Leave closed" }
       : leave.status === "returning"
         ? r8 && !r8.ok
           ? {
               id: "return",
               label: "At return",
-              verb: "Guard her return",
+              verb: "Guard the return",
               state: "blocked",
               note: "R8 Return guard failing",
             }
           : {
               id: "return",
               label: "At return",
-              verb: "Guard her return",
+              verb: "Guard the return",
               state: "active",
               note: "Ready to close",
             }
         : {
             id: "return",
             label: "At return",
-            verb: "Guard her return",
+            verb: "Guard the return",
             state: "waiting",
             note: "On the return date",
           };

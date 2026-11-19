@@ -419,7 +419,7 @@ def decide_return(session: Session, item: ReturnItem, decision: str, actor: Pers
         item.employee_agreed = True
     else:
         item.outcome, item.holder_id, item.employee_agreed = ReturnOutcome.RETURNS, None, True
-        item.note = "Returns to her, as the handover agreed."
+        item.note = "Returns to the employee, as the handover agreed."
     audit(session, actor, f"return.{decision}", item.leave, duty_id=item.duty_id)
     session.commit()
 

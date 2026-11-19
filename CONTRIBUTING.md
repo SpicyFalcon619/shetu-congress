@@ -25,5 +25,5 @@ Use your own GitHub account and your own git identity for every commit.
 - No field, prompt or screen asks for the reason for leave, health, pregnancy or family.
 - Nothing scores, ranks or rates people, or estimates how replaceable they are.
 - Suggested duties are questions until the employee confirms them.
-- Temporary assignments always end, and nothing becomes permanent without her agreement.
+- Temporary assignments always end, and nothing becomes permanent without the employee's agreement.
 - Every screen says the data is synthetic.

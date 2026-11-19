@@ -94,7 +94,7 @@ export function CoverStage({ leave, me }: { leave: LeaveDetail; me: Person }) {
           />
           {!leave.duties.length ? (
             <Empty title="Waiting for the Role Map">
-              {leave.employee.name.split(" ")[0]} maps her job first. Then Shetu can propose cover.
+              {leave.employee.name.split(" ")[0]} maps the job first. Then Shetu can propose cover.
             </Empty>
           ) : !hasPlan ? (
             <Empty title="No plan yet">

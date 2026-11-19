@@ -15,11 +15,11 @@ web
 
 ## Product Purpose
 
-Shetu keeps a job safe while its owner is on leave. It finds the work nobody wrote down, gives the manager a cover plan that has been checked, and makes sure the job she comes back to is the job she left. Success: no duty dropped, no colleague overloaded, nothing reassigned for good without her agreement.
+Shetu keeps a job safe while its owner is on leave. It finds the work nobody wrote down, gives the manager a cover plan that has been checked, and makes sure the job they come back to is the job they left. Success: no duty dropped, no colleague overloaded, nothing reassigned for good without the employee's agreement.
 
 ## Positioning
 
-AI proposes, rules check, people decide. Duties carry evidence (an exact quote, a document, or a suggestion awaiting confirmation). Code, not the model, decides dates, capacity and coverage. The return guard (R8) blocks closing a leave while a duty moved for good without her agreement. Built for maternity leave, works for any planned leave, and never asks why.
+AI proposes, rules check, people decide. Duties carry evidence (an exact quote, a document, or a suggestion awaiting confirmation). Code, not the model, decides dates, capacity and coverage. The return guard (R8) blocks closing a leave while a duty moved for good without the employee's agreement. Built for maternity leave, works for any planned leave, and never asks why.
 
 ## Operating Context
 
@@ -39,7 +39,7 @@ The leave lifecycle: before leave (interview and Role Map), cover plan (proposal
 - Fonts: Plus Jakarta Sans; Bangla in a matching Bengali face.
 - Light theme only.
 - No decorative emoji anywhere.
-- Lines: "Map her job. Hold her role. Guard her return." and "A bridge from her leave back to her career."
+- Lines: "Map the job. Hold the role. Guard the return." and "A bridge from leave back to work." (Gender-neutral since 19 Nov: maternity is the design focus, not the only user.)
 
 ## Evidence on Hand
 
@@ -48,7 +48,7 @@ The leave lifecycle: before leave (interview and Role Map), cover plan (proposal
 
 ## Product Principles
 
-1. Protect the person on leave: she confirms her map, and nothing moves for good without her.
+1. Protect the person on leave: they confirm their map, and nothing moves for good without them.
 2. The manager's job is made easier, not watched: no scores, rankings or surveillance.
 3. Every AI statement traces to evidence; rules decide, and their verdicts are visible.
 4. One engine for every planned leave; never ask why.

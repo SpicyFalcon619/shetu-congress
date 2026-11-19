@@ -183,8 +183,8 @@ def seed(session: Session) -> bool:
 def fast_forward_to_return(session: Session, leave: Leave) -> None:
     """Demo only: jump to the return day with a scripted set of outcomes.
 
-    The first planned duty changed while she was away, the second stays with its cover person
-    with her agreement, the third stays with its cover person without anyone asking her (R8),
+    The first planned duty changed during the leave, the second stays with its cover person
+    with the employee's agreement, the third stays with its cover person without anyone asking (R8),
     and the rest return unchanged.
     """
     for item in list(leave.return_items):
@@ -198,7 +198,7 @@ def fast_forward_to_return(session: Session, leave: Leave) -> None:
                 leave_id=leave.id,
                 duty_id=duty.id,
                 outcome=ReturnOutcome.CHANGED,
-                note="How this is done changed while she was away: a new reporting template since month 3.",
+                note="How this is done changed during the leave: a new reporting template since month 3.",
                 employee_agreed=True,
             )
         elif i == 1 and holder:
@@ -207,7 +207,7 @@ def fast_forward_to_return(session: Session, leave: Leave) -> None:
                 duty_id=duty.id,
                 outcome=ReturnOutcome.STAYS_WITH_COVER,
                 holder_id=holder,
-                note="She agreed in month 4 that this can stay.",
+                note="The employee agreed in month 4 that this can stay.",
                 employee_agreed=True,
             )
         elif i == 2 and holder:
@@ -216,7 +216,7 @@ def fast_forward_to_return(session: Session, leave: Leave) -> None:
                 duty_id=duty.id,
                 outcome=ReturnOutcome.STAYS_WITH_COVER,
                 holder_id=holder,
-                note="Kept by the cover person. Nobody asked her.",
+                note="Kept by the cover person. Nobody asked the employee.",
                 employee_agreed=None,
             )
         else:
@@ -224,7 +224,7 @@ def fast_forward_to_return(session: Session, leave: Leave) -> None:
                 leave_id=leave.id,
                 duty_id=duty.id,
                 outcome=ReturnOutcome.RETURNS,
-                note="Returns to her unchanged.",
+                note="Returns to the employee unchanged.",
                 employee_agreed=True,
             )
         session.add(item)

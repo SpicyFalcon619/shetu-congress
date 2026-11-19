@@ -58,7 +58,7 @@ export function LeaveCalendar({ rows }: { rows: LeaveRow[] }) {
         <div className="grid grid-cols-[11rem_minmax(0,1fr)] border-b">
           <div />
           <div className="relative grid text-2xs font-medium text-muted-foreground" style={cols}>
-            {months.map((m, i) => (
+            {months.map((m) => (
               <span
                 key={m.toISOString()}
                 className="overflow-visible border-l px-1.5 py-2 whitespace-nowrap first:border-l-0"
