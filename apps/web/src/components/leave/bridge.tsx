@@ -141,7 +141,7 @@ export function Bridge({
               <span
                 className={clsx(
                   "mt-0.5 block text-xs",
-                  s.state === "blocked" ? "font-semibold text-crimson-ink" : "text-muted",
+                  s.state === "blocked" ? "font-semibold text-crimson-ink" : "text-muted-foreground",
                 )}
               >
                 {s.note}

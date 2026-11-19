@@ -1,7 +1,6 @@
 "use client";
 
-import { PersonaPicker } from "@/components/persona-picker";
-import { Avatar, Badge, PageHeader, Panel } from "@/components/ui";
+import { Avatar, Badge, PageHeader, Panel } from "@/components/shared";
 import { ROLE_LABEL } from "@/lib/labels";
 import { useWorkspace } from "@/lib/overview";
 import { usePersona } from "@/lib/persona";
@@ -11,7 +10,7 @@ export default function PeoplePage() {
   const { rows } = useWorkspace(me);
 
   if (!ready) return null;
-  if (!me) return <PersonaPicker />;
+  if (!me) return null;
 
   const team = people.filter((p) => p.organization === me.organization);
   const hours = new Map<string, number>();
@@ -32,7 +31,7 @@ export default function PeoplePage() {
         <div className="overflow-x-auto">
           <table className="w-full min-w-[44rem] text-[13px]">
             <thead>
-              <tr className="border-b border-line text-left text-2xs font-semibold text-muted">
+              <tr className="border-b border-line text-left text-2xs font-semibold text-muted-foreground">
                 <th className="px-5 py-2.5 font-semibold">Name</th>
                 <th className="px-3 py-2.5 font-semibold">Role in Shetu</th>
                 <th className="px-3 py-2.5 font-semibold">Team</th>
@@ -50,7 +49,7 @@ export default function PeoplePage() {
                         <span className="block font-bold">
                           {p.name} {onLeave.has(p.id) && <Badge tone="crimson">On leave</Badge>}
                         </span>
-                        <span className="block text-xs text-muted">{p.job_title}</span>
+                        <span className="block text-xs text-muted-foreground">{p.job_title}</span>
                       </span>
                     </span>
                   </td>
@@ -64,7 +63,11 @@ export default function PeoplePage() {
                     </span>
                   </td>
                   <td className="px-5 py-3 text-right font-semibold">
-                    {hours.get(p.id) ? `${hours.get(p.id)} h/wk` : <span className="text-muted">—</span>}
+                    {hours.get(p.id) ? (
+                      `${hours.get(p.id)} h/wk`
+                    ) : (
+                      <span className="text-muted-foreground">—</span>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -72,7 +75,7 @@ export default function PeoplePage() {
           </table>
         </div>
       </Panel>
-      <p className="text-xs text-muted">
+      <p className="text-xs text-muted-foreground">
         Shetu never scores or ranks people. Cover held is shown so no one is overloaded.
       </p>
     </div>

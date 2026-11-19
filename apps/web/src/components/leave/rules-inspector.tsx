@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { Check, X } from "lucide-react";
 import type { ReactNode } from "react";
 
-import { Panel } from "@/components/ui";
+import { Panel } from "@/components/shared";
 import type { Finding } from "@/lib/api/client";
 import { RULE_NAME } from "@/lib/labels";
 
@@ -41,9 +41,15 @@ export function RulesInspector({
             </span>
             <div className="min-w-0">
               <p className="text-[13px] font-semibold text-ink">
-                {RULE_NAME[f.rule] ?? f.rule} <span className="font-normal text-muted">· {f.rule}</span>
+                {RULE_NAME[f.rule] ?? f.rule}{" "}
+                <span className="font-normal text-muted-foreground">· {f.rule}</span>
               </p>
-              <p className={clsx("mt-0.5 text-xs leading-relaxed", f.ok ? "text-muted" : "text-crimson-ink")}>
+              <p
+                className={clsx(
+                  "mt-0.5 text-xs leading-relaxed",
+                  f.ok ? "text-muted-foreground" : "text-crimson-ink",
+                )}
+              >
                 {f.message}
               </p>
             </div>

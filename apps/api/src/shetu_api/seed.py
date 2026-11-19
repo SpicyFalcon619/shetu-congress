@@ -18,6 +18,7 @@ from shetu_api.models import (
     ReturnOutcome,
     Role,
 )
+from shetu_api.seed_history import seed_history
 
 NGO = "Shapla Development Foundation (synthetic)"
 UNI = "Meghna University (synthetic)"
@@ -174,6 +175,7 @@ def seed(session: Session) -> bool:
             answered_on=date.today(),
         )
     )
+    seed_history(session)
     session.commit()
     return True
 

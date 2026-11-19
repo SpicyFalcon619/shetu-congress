@@ -4,10 +4,12 @@ import clsx from "clsx";
 import { RefreshCw, Wand2 } from "lucide-react";
 import { useState } from "react";
 
-import { Avatar, Badge, Button, Empty, ErrorNote, Panel, PanelHeader } from "@/components/ui";
+import { Avatar, Badge, Button, Empty, ErrorNote, Panel, PanelHeader } from "@/components/shared";
 import { api, type LeaveDetail, type Person, unwrap } from "@/lib/api/client";
 import { weeksBetween } from "@/lib/format";
 import { useLeaveAction } from "@/lib/leave";
+
+import { PersonSelect } from "@/components/person-select";
 
 import { RulesInspector } from "./rules-inspector";
 
@@ -53,6 +55,9 @@ export function CoverStage({ leave, me }: { leave: LeaveDetail; me: Person }) {
         (load.get(a.cover_person_id) ?? 0) + (duties.get(a.duty_id)?.hours_per_week ?? 0),
       );
   }
+  const hoursMap = new Map(
+    leave.team.map((p) => [p.id, { used: load.get(p.id) ?? 0, cap: avail.get(p.id) }]),
+  );
   const coverPeople = [
     ...new Set(leave.assignments.map((a) => a.cover_person_id).filter(Boolean)),
   ] as string[];
@@ -101,7 +106,7 @@ export function CoverStage({ leave, me }: { leave: LeaveDetail; me: Person }) {
             <div className="overflow-x-auto">
               <table className="w-full min-w-[40rem] text-[13px]">
                 <thead>
-                  <tr className="border-b border-line text-left text-2xs font-semibold text-muted">
+                  <tr className="border-b border-line text-left text-2xs font-semibold text-muted-foreground">
                     <th className="px-5 py-2.5 font-semibold">Duty</th>
                     <th className="px-3 py-2.5 text-right font-semibold">h/wk</th>
                     <th className="px-3 py-2.5 font-semibold">Held by</th>
@@ -121,31 +126,23 @@ export function CoverStage({ leave, me }: { leave: LeaveDetail; me: Person }) {
                         <td className="px-3 py-3 text-right">{duty?.hours_per_week}</td>
                         <td className="px-3 py-2.5">
                           {isManager ? (
-                            <select
-                              aria-label={`Cover for ${duty?.title}`}
-                              value={a.cover_person_id ?? ""}
-                              onChange={(e) => reassign.mutate({ id: a.id, person: e.target.value || null })}
-                              className={clsx(
-                                "h-8 rounded-md border bg-panel px-2 text-[13px] font-semibold",
-                                !a.cover_person_id || over
-                                  ? "border-crimson text-crimson-ink"
-                                  : "border-line-strong",
-                              )}
-                            >
-                              <option value="">No owner</option>
-                              {leave.team.map((p) => (
-                                <option key={p.id} value={p.id}>
-                                  {p.name}
-                                </option>
-                              ))}
-                            </select>
+                            <PersonSelect
+                              label={`Cover for ${duty?.title}`}
+                              value={a.cover_person_id}
+                              people={leave.team}
+                              invalid={!a.cover_person_id || over}
+                              hours={hoursMap}
+                              onChange={(person) => reassign.mutate({ id: a.id, person })}
+                            />
                           ) : (
                             <span className="font-semibold">
                               {people.get(a.cover_person_id ?? "")?.name ?? "No owner"}
                             </span>
                           )}
                         </td>
-                        <td className="px-5 py-3 text-xs leading-relaxed text-muted">{a.rationale}</td>
+                        <td className="px-5 py-3 text-xs leading-relaxed text-muted-foreground">
+                          {a.rationale}
+                        </td>
                       </tr>
                     );
                   })}
@@ -260,7 +257,7 @@ export function CoverStage({ leave, me }: { leave: LeaveDetail; me: Person }) {
                 >
                   {hasPlan && !pending ? "Plan approved" : `Approve plan as ${me.name.split(" ")[0]}`}
                 </Button>
-                <p className="text-center text-2xs text-muted">
+                <p className="text-center text-2xs text-muted-foreground">
                   {approvedAt
                     ? `Approved at ${approvedAt} and written to the audit log.`
                     : leave.can_approve
@@ -272,7 +269,9 @@ export function CoverStage({ leave, me }: { leave: LeaveDetail; me: Person }) {
                 />
               </div>
             ) : (
-              <p className="text-xs text-muted">Only {leave.manager.name} can approve this plan.</p>
+              <p className="text-xs text-muted-foreground">
+                Only {leave.manager.name} can approve this plan.
+              </p>
             )
           }
         />

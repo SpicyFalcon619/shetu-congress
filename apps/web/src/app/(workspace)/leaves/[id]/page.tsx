@@ -6,7 +6,7 @@ type Props = { params: Promise<{ id: string }> };
 
 export default function LeavePage({ params }: Props) {
   return (
-    <Suspense fallback={<p className="text-muted">Loading the leave…</p>}>
+    <Suspense fallback={<p className="text-muted-foreground">Loading the leave…</p>}>
       <Leave params={params} />
     </Suspense>
   );

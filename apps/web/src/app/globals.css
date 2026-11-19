@@ -1,73 +1,140 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-/* Shetu product theme. Light only, from the team's deck: paper ground, white panels,
-   ink type, crimson for action and blocking state, deep crimson for the navigation rail. */
+/* Shetu product theme on shadcn/ui. Light only, from the team's deck:
+   warm paper ground, white surfaces, ink type, crimson for action and blocking state. */
+
 @theme {
   --color-paper: #f8f4ec;
   --color-panel: #ffffff;
-  --color-sunk: #f3ede2;
   --color-line: #e7dfd2;
+  --color-rail: #7a051d;
+  --color-rail-hover: #8f0a26;
+  --color-rail-text: #f9dfe4;
+  --color-sunk: #f3ede2;
   --color-line-strong: #d6cbb9;
   --color-ink: #222023;
   --color-ink-2: #4a4448;
-  --color-muted: #6f676a;
   --color-crimson: #bf092f;
   --color-crimson-deep: #8c0622;
   --color-crimson-ink: #a10727;
   --color-blush: #fbe6ea;
   --color-rose: #f2b8c3;
-  --color-rail: #7a051d;
-  --color-rail-hover: #8f0a26;
-  --color-rail-text: #f9dfe4;
   --color-gold: #d99a1e;
   --color-gold-soft: #fbf0d8;
   --color-gold-ink: #7a520a;
   --color-leaf: #1f7a48;
   --color-leaf-soft: #e1f3e7;
 
-  --font-sans: var(--font-jakarta), "Segoe UI", system-ui, sans-serif;
   --font-bangla: var(--font-hind), "Nirmala UI", sans-serif;
-
   --text-2xs: 0.6875rem;
   --text-2xs--line-height: 1rem;
-
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
   color-scheme: light;
-  scrollbar-color: var(--color-line-strong) transparent;
+  --radius: 0.625rem;
+
+  --background: #f8f4ec;
+  --foreground: #222023;
+  --card: #ffffff;
+  --card-foreground: #222023;
+  --popover: #ffffff;
+  --popover-foreground: #222023;
+  --primary: #bf092f;
+  --primary-foreground: #ffffff;
+  --secondary: #f3ede2;
+  --secondary-foreground: #222023;
+  --muted: #f3ede2;
+  --muted-foreground: #6f676a;
+  --accent: #f6f0e6;
+  --accent-foreground: #222023;
+  --destructive: #a10727;
+  --border: #e7dfd2;
+  --input: #ddd3c3;
+  --ring: #bf092f;
+
+  --chart-1: #bf092f;
+  --chart-2: #d99a1e;
+  --chart-3: #1f7a48;
+  --chart-4: #f2b8c3;
+  --chart-5: #4a4448;
+
+  --sidebar: #fbf8f2;
+  --sidebar-foreground: #4a4448;
+  --sidebar-primary: #bf092f;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1e9dc;
+  --sidebar-accent-foreground: #222023;
+  --sidebar-border: #e7dfd2;
+  --sidebar-ring: #bf092f;
 }
 
-html,
-body {
-  height: 100%;
+@theme inline {
+  --font-sans: var(--font-jakarta), "Segoe UI", system-ui, sans-serif;
+  --font-heading: var(--font-jakarta), "Segoe UI", system-ui, sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
 }
 
-body {
-  background: var(--color-paper);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  font-size: 14px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  font-variant-numeric: tabular-nums;
-  caret-color: var(--color-crimson);
-}
-
-::selection {
-  background: var(--color-blush);
-  color: var(--color-crimson-deep);
-}
-
-:focus-visible {
-  outline: 2px solid var(--color-crimson);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-a {
-  text-underline-offset: 3px;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html,
+  body {
+    height: 100%;
+  }
+  html {
+    @apply font-sans;
+    scrollbar-color: var(--color-line-strong) transparent;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+    caret-color: var(--color-crimson);
+  }
+  ::selection {
+    background: var(--color-blush);
+    color: var(--color-crimson-deep);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

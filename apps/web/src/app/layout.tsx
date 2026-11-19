@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Hind_Siliguri, Plus_Jakarta_Sans } from "next/font/google";
 
-import { AppShell } from "@/components/app-shell";
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 import { Providers } from "./providers";
 import "./globals.css";
@@ -13,8 +14,8 @@ const hind = Hind_Siliguri({
   variable: "--font-hind",
 });
 
-// The workspace reads the chosen persona in the browser, so navigations are not expected to be
-// instant from a server prefetch. Opt out of instant-navigation validation.
+// The workspace reads the chosen demo account in the browser, so navigations are not expected
+// to be instant from a server prefetch. Opt out of instant-navigation validation.
 export const instant = false;
 
 export const metadata: Metadata = {
@@ -28,7 +29,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${jakarta.variable} ${hind.variable}`}>
       <body>
         <Providers>
-          <AppShell>{children}</AppShell>
+          <TooltipProvider delayDuration={300}>{children}</TooltipProvider>
+          <Toaster position="bottom-right" />
         </Providers>
       </body>
     </html>

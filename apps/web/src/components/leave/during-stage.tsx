@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { useState } from "react";
 
-import { Avatar, Badge, Button, Empty, ErrorNote, Panel, PanelHeader } from "@/components/ui";
+import { Avatar, Badge, Button, Empty, ErrorNote, Panel, PanelHeader } from "@/components/shared";
 import { api, type ChangeRequest, type LeaveDetail, type Person, unwrap } from "@/lib/api/client";
 import { useLeaveAction } from "@/lib/leave";
 
@@ -99,7 +99,9 @@ export function DuringStage({
                     <span className="text-[13px] font-semibold">
                       {names.get(c.created_by_id) ?? "Someone"}
                     </span>
-                    <span className="text-xs text-muted">{timeFmt.format(new Date(c.created_at))}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {timeFmt.format(new Date(c.created_at))}
+                    </span>
                     <span className="ml-auto flex gap-1.5">
                       <Badge tone="neutral">{KIND[p.kind ?? "other"] ?? p.kind}</Badge>
                       <Badge tone={open ? "gold" : c.status === "approved" ? "leaf" : "neutral"}>
@@ -110,7 +112,9 @@ export function DuringStage({
                   <p className="text-[13px] text-ink-2 italic">&ldquo;{c.raw_text}&rdquo;</p>
                   <p className="text-[13px] font-semibold">
                     {p.summary}
-                    {p.duty_title && <span className="font-normal text-muted"> · {p.duty_title}</span>}
+                    {p.duty_title && (
+                      <span className="font-normal text-muted-foreground"> · {p.duty_title}</span>
+                    )}
                   </p>
                   {isManager && open && (
                     <div className="flex gap-2">
@@ -144,7 +148,7 @@ export function DuringStage({
         />
         <div className="p-4">
           {leave.status === "planning" ? (
-            <p className="text-[13px] text-muted">Changes open once the cover plan is approved.</p>
+            <p className="text-[13px] text-muted-foreground">Changes open once the cover plan is approved.</p>
           ) : canReport ? (
             <form
               className="grid gap-2"
@@ -162,14 +166,14 @@ export function DuringStage({
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 placeholder="e.g. Ami ar donor reconciliation korte parbo na from next week"
-                className="resize-none rounded-lg border border-line-strong bg-panel px-3 py-2 text-[13px] outline-none placeholder:text-muted focus:border-crimson"
+                className="resize-none rounded-lg border border-line-strong bg-panel px-3 py-2 text-[13px] outline-none placeholder:text-muted-foreground focus:border-crimson"
               />
               <Button type="submit" busy={report.isPending} disabled={text.trim().length < 3}>
                 Report change
               </Button>
             </form>
           ) : (
-            <p className="text-[13px] text-muted">
+            <p className="text-[13px] text-muted-foreground">
               Only the manager or a covering colleague can report a change.
             </p>
           )}

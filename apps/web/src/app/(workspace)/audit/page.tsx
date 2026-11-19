@@ -2,8 +2,7 @@
 
 import { useQueries } from "@tanstack/react-query";
 
-import { PersonaPicker } from "@/components/persona-picker";
-import { Avatar, Badge, Empty, PageHeader, Panel } from "@/components/ui";
+import { Avatar, Badge, Empty, PageHeader, Panel } from "@/components/shared";
 import { api, unwrap } from "@/lib/api/client";
 import { useWorkspace } from "@/lib/overview";
 import { usePersona } from "@/lib/persona";
@@ -41,7 +40,7 @@ export default function AuditPage() {
   });
 
   if (!ready) return null;
-  if (!me) return <PersonaPicker />;
+  if (!me) return null;
 
   const names = new Map(people.map((p) => [p.id, p.name]));
   const events = readable
@@ -69,7 +68,7 @@ export default function AuditPage() {
                   {(ACTION[e.action] ?? e.action).toLowerCase()}
                 </span>
                 <Badge>{e.who}</Badge>
-                <time className="w-28 text-right text-xs text-muted" dateTime={e.at}>
+                <time className="w-28 text-right text-xs text-muted-foreground" dateTime={e.at}>
                   {fmt.format(new Date(e.at))}
                 </time>
               </li>

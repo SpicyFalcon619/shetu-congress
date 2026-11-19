@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { FastForward, Languages } from "lucide-react";
 
-import { Avatar, Badge, Button, Empty, ErrorNote, Panel, PanelHeader, type Tone } from "@/components/ui";
+import { Avatar, Badge, Button, Empty, ErrorNote, Panel, PanelHeader, type Tone } from "@/components/shared";
 import { api, type LeaveDetail, type Person, type ReturnView, unwrap } from "@/lib/api/client";
 import { useLeaveAction } from "@/lib/leave";
 
@@ -85,14 +85,14 @@ export function ReturnStage({ leave, me, view }: { leave: LeaveDetail; me: Perso
                     <div className="flex flex-wrap items-center gap-2">
                       <p className="min-w-0 flex-1 text-[13px] font-bold">{i.duty_title}</p>
                       {i.holder_id && (
-                        <span className="flex items-center gap-1.5 text-xs text-muted">
+                        <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                           <Avatar name={names.get(i.holder_id) ?? "?"} size="sm" />
                           {names.get(i.holder_id)}
                         </span>
                       )}
                       <Badge tone={o.tone}>{o.label}</Badge>
                     </div>
-                    <p className="text-xs text-muted">{i.note}</p>
+                    <p className="text-xs text-muted-foreground">{i.note}</p>
                     {blocked && (
                       <p className="text-xs font-bold text-crimson-ink">
                         R8: moved for good without her agreement. The leave cannot close until she decides.
@@ -147,7 +147,7 @@ export function ReturnStage({ leave, me, view }: { leave: LeaveDetail; me: Perso
                 <p className="font-bangla text-[15px] leading-relaxed">{explain.data.summary_bn}</p>
               </div>
             ) : (
-              <p className="px-5 py-4 text-[13px] text-muted">
+              <p className="px-5 py-4 text-[13px] text-muted-foreground">
                 Ask Shetu to explain what changed, in plain words.
               </p>
             )}
@@ -172,7 +172,7 @@ export function ReturnStage({ leave, me, view }: { leave: LeaveDetail; me: Perso
                 >
                   {leave.status === "closed" ? "Leave closed" : "Close the leave"}
                 </Button>
-                <p className="text-center text-2xs text-muted">
+                <p className="text-center text-2xs text-muted-foreground">
                   {leave.status === "closed"
                     ? "Every temporary assignment has ended."
                     : view.can_close
@@ -181,7 +181,7 @@ export function ReturnStage({ leave, me, view }: { leave: LeaveDetail; me: Perso
                 </p>
               </div>
             ) : (
-              <p className="text-xs text-muted">Only {leave.manager.name} can close the leave.</p>
+              <p className="text-xs text-muted-foreground">Only {leave.manager.name} can close the leave.</p>
             )
           }
         />

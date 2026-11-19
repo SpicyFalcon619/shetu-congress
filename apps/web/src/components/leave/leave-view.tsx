@@ -4,7 +4,7 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-import { Avatar, Badge, Empty, Panel } from "@/components/ui";
+import { Avatar, Badge, Empty, Panel } from "@/components/shared";
 import { formatDate, weeksBetween } from "@/lib/format";
 import { STATUS_LABEL } from "@/lib/labels";
 import { useChanges, useLeave, useReturn } from "@/lib/leave";
@@ -52,7 +52,7 @@ export function LeaveView({ id }: { id: string }) {
 
   return (
     <div className="grid gap-5 [&>*]:min-w-0">
-      <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-muted">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs text-muted-foreground">
         <Link href="/leaves" className="font-semibold hover:text-ink">
           Leaves
         </Link>
@@ -69,23 +69,23 @@ export function LeaveView({ id }: { id: string }) {
               {STATUS_LABEL[l.status]}
             </Badge>
           </div>
-          <p className="mt-0.5 text-[13px] text-muted">
+          <p className="mt-0.5 text-[13px] text-muted-foreground">
             {l.employee.job_title} · {l.employee.organization}
           </p>
         </div>
         <dl className="grid basis-full grid-cols-3 gap-x-6 text-[13px] md:basis-auto">
           <div>
-            <dt className="text-2xs font-semibold text-muted">Leave</dt>
+            <dt className="text-2xs font-semibold text-muted-foreground">Leave</dt>
             <dd className="font-semibold">
               {formatDate(l.starts_on)} – {formatDate(l.ends_on)}
             </dd>
           </div>
           <div>
-            <dt className="text-2xs font-semibold text-muted">Length</dt>
+            <dt className="text-2xs font-semibold text-muted-foreground">Length</dt>
             <dd className="font-semibold">{weeksBetween(l.starts_on, l.ends_on)} weeks</dd>
           </div>
           <div>
-            <dt className="text-2xs font-semibold text-muted">Manager</dt>
+            <dt className="text-2xs font-semibold text-muted-foreground">Manager</dt>
             <dd className="font-semibold">{l.manager.name}</dd>
           </div>
         </dl>

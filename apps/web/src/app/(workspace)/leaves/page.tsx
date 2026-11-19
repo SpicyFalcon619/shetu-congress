@@ -4,8 +4,7 @@ import clsx from "clsx";
 import { useState } from "react";
 
 import { LeavesTable } from "@/components/leaves-table";
-import { PersonaPicker } from "@/components/persona-picker";
-import { Empty, PageHeader, Panel } from "@/components/ui";
+import { Empty, PageHeader, Panel } from "@/components/shared";
 import { STATUS_LABEL } from "@/lib/labels";
 import { useWorkspace } from "@/lib/overview";
 import { usePersona } from "@/lib/persona";
@@ -18,7 +17,7 @@ export default function LeavesPage() {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>("all");
 
   if (!ready) return null;
-  if (!me) return <PersonaPicker />;
+  if (!me) return null;
 
   const shown = rows.filter((r) => filter === "all" || r.leave.status === filter);
   return (
@@ -41,7 +40,9 @@ export default function LeavesPage() {
                 onClick={() => setFilter(f)}
                 className={clsx(
                   "-mb-px flex items-center gap-1.5 border-b-2 px-3 pb-2.5 text-[13px] font-semibold whitespace-nowrap",
-                  filter === f ? "border-crimson text-ink" : "border-transparent text-muted hover:text-ink",
+                  filter === f
+                    ? "border-crimson text-ink"
+                    : "border-transparent text-muted-foreground hover:text-ink",
                 )}
               >
                 {f === "all" ? "All" : STATUS_LABEL[f]}

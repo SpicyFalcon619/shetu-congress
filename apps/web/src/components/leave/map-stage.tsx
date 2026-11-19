@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { FileText, MessageSquareQuote, SendHorizontal, Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-import { Badge, Button, Empty, ErrorNote, Panel, PanelHeader, type Tone } from "@/components/ui";
+import { Badge, Button, Empty, ErrorNote, Panel, PanelHeader, type Tone } from "@/components/shared";
 import { api, type Duty, type LeaveDetail, type Person, unwrap } from "@/lib/api/client";
 import { useLeaveAction } from "@/lib/leave";
 
@@ -74,7 +74,7 @@ function Interview({ leave, me }: { leave: LeaveDetail; me: Person }) {
           </div>
         ))}
         {reply.isPending && (
-          <div className="self-start rounded-2xl rounded-tl-sm border border-line bg-panel px-3.5 py-2.5 text-[13px] text-muted">
+          <div className="self-start rounded-2xl rounded-tl-sm border border-line bg-panel px-3.5 py-2.5 text-[13px] text-muted-foreground">
             Reading your answer and updating the Role Map…
           </div>
         )}
@@ -113,7 +113,7 @@ function Interview({ leave, me }: { leave: LeaveDetail; me: Person }) {
                 }}
                 rows={2}
                 placeholder="Type your answer. Enter sends, Shift+Enter adds a line."
-                className="min-w-0 flex-1 resize-none rounded-lg border border-line-strong bg-panel px-3 py-2 text-[13px] outline-none placeholder:text-muted focus:border-crimson"
+                className="min-w-0 flex-1 resize-none rounded-lg border border-line-strong bg-panel px-3 py-2 text-[13px] outline-none placeholder:text-muted-foreground focus:border-crimson"
               />
               <Button type="submit" busy={reply.isPending} disabled={!text.trim()} aria-label="Send answer">
                 <SendHorizontal className="size-4" aria-hidden />
@@ -168,7 +168,7 @@ function RoleMap({ leave, me }: { leave: LeaveDetail; me: Person }) {
           ].map(([k, v]) => (
             <div key={k} className="border-r border-line px-3 py-3 last:border-r-0">
               <dd className="text-lg font-extrabold">{v}</dd>
-              <dt className="text-2xs font-semibold text-muted">{k}</dt>
+              <dt className="text-2xs font-semibold text-muted-foreground">{k}</dt>
             </div>
           ))}
         </dl>
@@ -195,7 +195,7 @@ function RoleMap({ leave, me }: { leave: LeaveDetail; me: Person }) {
                     {ev.label}
                   </Badge>
                   {d.confirmed && <Badge tone="leaf">Confirmed</Badge>}
-                  <span className="w-28 text-right text-xs text-muted">
+                  <span className="w-28 text-right text-xs text-muted-foreground">
                     {d.frequency.replace("_", " ")} · {d.hours_per_week} h/wk
                   </span>
                 </div>
@@ -204,7 +204,7 @@ function RoleMap({ leave, me }: { leave: LeaveDetail; me: Person }) {
                     &ldquo;{d.quote}&rdquo;
                   </blockquote>
                 ) : (
-                  d.detail && <p className="text-xs text-muted">{d.detail}</p>
+                  d.detail && <p className="text-xs text-muted-foreground">{d.detail}</p>
                 )}
                 {d.flag && <p className="text-xs font-semibold text-crimson-ink">{d.flag}</p>}
                 {isEmployee && !d.confirmed && (

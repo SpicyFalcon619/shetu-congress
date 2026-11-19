@@ -7,14 +7,14 @@ import type { LeaveRow } from "@/lib/overview";
 import { currentStageIndex } from "@/lib/stages";
 
 import { StageDots } from "./stage-dots";
-import { Avatar, Badge } from "./ui";
+import { Avatar, Badge } from "./shared";
 
 export function LeavesTable({ rows }: { rows: LeaveRow[] }) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full min-w-[52rem] text-[13px]">
         <thead>
-          <tr className="border-b border-line text-left text-2xs font-semibold text-muted">
+          <tr className="border-b border-line text-left text-2xs font-semibold text-muted-foreground">
             <th className="px-5 py-2.5 font-semibold">Employee</th>
             <th className="px-3 py-2.5 font-semibold">Leave</th>
             <th className="px-3 py-2.5 font-semibold">Progress</th>
@@ -38,7 +38,9 @@ export function LeavesTable({ rows }: { rows: LeaveRow[] }) {
                     <Avatar name={l.employee.name} />
                     <span className="min-w-0">
                       <span className="block font-bold text-ink">{l.employee.name}</span>
-                      <span className="block truncate text-xs text-muted">{l.employee.job_title}</span>
+                      <span className="block truncate text-xs text-muted-foreground">
+                        {l.employee.job_title}
+                      </span>
                     </span>
                   </Link>
                 </td>
@@ -46,7 +48,9 @@ export function LeavesTable({ rows }: { rows: LeaveRow[] }) {
                   <span className="block font-semibold">
                     {formatDate(l.starts_on)} – {formatDate(l.ends_on)}
                   </span>
-                  <span className="text-xs text-muted">{weeksBetween(l.starts_on, l.ends_on)} weeks</span>
+                  <span className="text-xs text-muted-foreground">
+                    {weeksBetween(l.starts_on, l.ends_on)} weeks
+                  </span>
                 </td>
                 <td className="px-3 py-3">
                   <StageDots stages={stages} />
@@ -59,14 +63,16 @@ export function LeavesTable({ rows }: { rows: LeaveRow[] }) {
                       {l.status === "closed" ? STATUS_LABEL.closed : now.label}
                     </Badge>
                     <span
-                      className={now.state === "blocked" ? "font-semibold text-crimson-ink" : "text-muted"}
+                      className={
+                        now.state === "blocked" ? "font-semibold text-crimson-ink" : "text-muted-foreground"
+                      }
                     >
                       {now.note}
                     </span>
                   </span>
                 </td>
                 <td className="px-3 py-3 text-ink-2">{l.manager.name}</td>
-                <td className="px-3 py-3 text-muted">
+                <td className="px-3 py-3 text-muted-foreground">
                   <ChevronRight
                     className="size-4 transition-transform group-hover:translate-x-0.5"
                     aria-hidden
