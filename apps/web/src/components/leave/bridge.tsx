@@ -109,7 +109,7 @@ export function Bridge({
       <div
         role="tablist"
         aria-label="Leave stages"
-        className="grid grid-cols-2 gap-1.5 sm:-mt-1 sm:grid-cols-4"
+        className="grid grid-cols-2 gap-1.5 sm:mt-3 sm:grid-cols-4"
       >
         {stages.map((s, i) => {
           const isSel = s.id === selected;
