@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+/* Shetu brand, matching the proposal deck: warm paper, crimson emphasis, ink text, white cards.
+   One light theme by design. */
+@theme {
+  --color-paper: #f8f4ec;
+  --color-card: #ffffff;
+  --color-sunk: #f1e9dc;
+  --color-line: #e8dfd2;
+  --color-ink: #222023;
+  --color-muted: #5e5659;
+  --color-crimson: #bf092f;
+  --color-crimson-deep: #8c0622;
+  --color-blush: #fbe6ea;
+  --color-rose: #f2b8c3;
+  --color-gold: #d99a1e;
+  --color-gold-soft: #fbf0d8;
+  --color-gold-ink: #7a520a;
+  --color-leaf: #23794a;
+  --color-leaf-soft: #e1f5e9;
+
+  --font-sans: var(--font-jakarta), "Segoe UI", system-ui, sans-serif;
+  --font-bangla: var(--font-hind), "Nirmala UI", sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background: var(--color-crimson);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-crimson);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

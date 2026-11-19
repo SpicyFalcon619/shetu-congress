@@ -1,0 +1,2084 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "Shetu API",
+  "summary": "Hidden-work discovery, checked cover plans and return checks for planned leave.",
+  "version": "0.1.0"
+ },
+ "paths": {
+  "/healthz": {
+   "get": {
+    "tags": [
+     "ops"
+    ],
+    "summary": "Healthz",
+    "operationId": "healthz_healthz_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "additionalProperties": {
+          "type": "string"
+         },
+         "type": "object",
+         "title": "Response Healthz Healthz Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/personas": {
+   "get": {
+    "tags": [
+     "people"
+    ],
+    "summary": "Personas",
+    "operationId": "personas_api_v1_personas_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "items": {
+          "$ref": "#/components/schemas/PersonOut"
+         },
+         "type": "array",
+         "title": "Response Personas Api V1 Personas Get"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/leaves": {
+   "get": {
+    "tags": [
+     "leaves"
+    ],
+    "summary": "List Leaves",
+    "operationId": "list_leaves_api_v1_leaves_get",
+    "parameters": [
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/LeaveSummary"
+         },
+         "title": "Response List Leaves Api V1 Leaves Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/leaves/{leave_id}": {
+   "get": {
+    "tags": [
+     "leaves"
+    ],
+    "summary": "Get Leave",
+    "operationId": "get_leave_api_v1_leaves__leave_id__get",
+    "parameters": [
+     {
+      "name": "leave_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Leave Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LeaveDetail"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/leaves/{leave_id}/audit": {
+   "get": {
+    "tags": [
+     "leaves"
+    ],
+    "summary": "Audit Log",
+    "operationId": "audit_log_api_v1_leaves__leave_id__audit_get",
+    "parameters": [
+     {
+      "name": "leave_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Leave Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/AuditOut"
+         },
+         "title": "Response Audit Log Api V1 Leaves  Leave Id  Audit Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/leaves/{leave_id}/interview/start": {
+   "post": {
+    "tags": [
+     "interview"
+    ],
+    "summary": "Interview Start",
+    "operationId": "interview_start_api_v1_leaves__leave_id__interview_start_post",
+    "parameters": [
+     {
+      "name": "leave_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Leave Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LeaveDetail"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/leaves/{leave_id}/interview/reply": {
+   "post": {
+    "tags": [
+     "interview"
+    ],
+    "summary": "Interview Reply",
+    "operationId": "interview_reply_api_v1_leaves__leave_id__interview_reply_post",
+    "parameters": [
+     {
+      "name": "leave_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Leave Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/InterviewReply"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LeaveDetail"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/duties/{duty_id}": {
+   "patch": {
+    "tags": [
+     "interview"
+    ],
+    "summary": "Patch Duty",
+    "operationId": "patch_duty_api_v1_duties__duty_id__patch",
+    "parameters": [
+     {
+      "name": "duty_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Duty Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/DutyPatch"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LeaveDetail"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "delete": {
+    "tags": [
+     "interview"
+    ],
+    "summary": "Delete Duty",
+    "operationId": "delete_duty_api_v1_duties__duty_id__delete",
+    "parameters": [
+     {
+      "name": "duty_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Duty Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LeaveDetail"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/leaves/{leave_id}/cover/propose": {
+   "post": {
+    "tags": [
+     "cover"
+    ],
+    "summary": "Cover Propose",
+    "operationId": "cover_propose_api_v1_leaves__leave_id__cover_propose_post",
+    "parameters": [
+     {
+      "name": "leave_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Leave Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LeaveDetail"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/leaves/{leave_id}/availability/{person_id}": {
+   "put": {
+    "tags": [
+     "cover"
+    ],
+    "summary": "Put Availability",
+    "operationId": "put_availability_api_v1_leaves__leave_id__availability__person_id__put",
+    "parameters": [
+     {
+      "name": "leave_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Leave Id"
+      }
+     },
+     {
+      "name": "person_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Person Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AvailabilityIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LeaveDetail"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/assignments/{assignment_id}": {
+   "patch": {
+    "tags": [
+     "cover"
+    ],
+    "summary": "Patch Assignment",
+    "operationId": "patch_assignment_api_v1_assignments__assignment_id__patch",
+    "parameters": [
+     {
+      "name": "assignment_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Assignment Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/AssignmentPatch"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LeaveDetail"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/leaves/{leave_id}/cover/approve": {
+   "post": {
+    "tags": [
+     "cover"
+    ],
+    "summary": "Cover Approve",
+    "operationId": "cover_approve_api_v1_leaves__leave_id__cover_approve_post",
+    "parameters": [
+     {
+      "name": "leave_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Leave Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LeaveDetail"
+        }
+       }
+      }
+     },
+     "409": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/FindingOut"
+         },
+         "title": "Response 409 Cover Approve Api V1 Leaves  Leave Id  Cover Approve Post"
+        }
+       }
+      },
+      "description": "Conflict"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/leaves/{leave_id}/changes": {
+   "get": {
+    "tags": [
+     "changes"
+    ],
+    "summary": "List Changes",
+    "operationId": "list_changes_api_v1_leaves__leave_id__changes_get",
+    "parameters": [
+     {
+      "name": "leave_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Leave Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/ChangeOut"
+         },
+         "title": "Response List Changes Api V1 Leaves  Leave Id  Changes Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "post": {
+    "tags": [
+     "changes"
+    ],
+    "summary": "Post Change",
+    "operationId": "post_change_api_v1_leaves__leave_id__changes_post",
+    "parameters": [
+     {
+      "name": "leave_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Leave Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ChangeIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ChangeOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/changes/{change_id}/decision": {
+   "post": {
+    "tags": [
+     "changes"
+    ],
+    "summary": "Change Decision",
+    "operationId": "change_decision_api_v1_changes__change_id__decision_post",
+    "parameters": [
+     {
+      "name": "change_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Change Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ChangeDecision"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LeaveDetail"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/leaves/{leave_id}/demo/fast-forward": {
+   "post": {
+    "tags": [
+     "return"
+    ],
+    "summary": "Demo Fast Forward",
+    "description": "Demo only: jump to the return day with scripted outcomes.",
+    "operationId": "demo_fast_forward_api_v1_leaves__leave_id__demo_fast_forward_post",
+    "parameters": [
+     {
+      "name": "leave_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Leave Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ReturnView"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/leaves/{leave_id}/return": {
+   "get": {
+    "tags": [
+     "return"
+    ],
+    "summary": "Get Return",
+    "operationId": "get_return_api_v1_leaves__leave_id__return_get",
+    "parameters": [
+     {
+      "name": "leave_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Leave Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ReturnView"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/leaves/{leave_id}/return/explain": {
+   "post": {
+    "tags": [
+     "return"
+    ],
+    "summary": "Explain Return",
+    "operationId": "explain_return_api_v1_leaves__leave_id__return_explain_post",
+    "parameters": [
+     {
+      "name": "leave_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Leave Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ReturnExplanation"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/return-items/{item_id}/decision": {
+   "post": {
+    "tags": [
+     "return"
+    ],
+    "summary": "Return Decision",
+    "operationId": "return_decision_api_v1_return_items__item_id__decision_post",
+    "parameters": [
+     {
+      "name": "item_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Item Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ReturnDecision"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ReturnView"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/leaves/{leave_id}/close": {
+   "post": {
+    "tags": [
+     "return"
+    ],
+    "summary": "Close",
+    "operationId": "close_api_v1_leaves__leave_id__close_post",
+    "parameters": [
+     {
+      "name": "leave_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Leave Id"
+      }
+     },
+     {
+      "name": "x-shetu-persona",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "X-Shetu-Persona"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/LeaveDetail"
+        }
+       }
+      }
+     },
+     "409": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/FindingOut"
+        }
+       }
+      },
+      "description": "Conflict"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "AssignmentOut": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "duty_id": {
+      "type": "string",
+      "title": "Duty Id"
+     },
+     "cover_person_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cover Person Id"
+     },
+     "starts_on": {
+      "type": "string",
+      "format": "date",
+      "title": "Starts On"
+     },
+     "ends_on": {
+      "type": "string",
+      "format": "date",
+      "title": "Ends On"
+     },
+     "status": {
+      "$ref": "#/components/schemas/AssignmentStatus"
+     },
+     "rationale": {
+      "type": "string",
+      "title": "Rationale"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "duty_id",
+     "cover_person_id",
+     "starts_on",
+     "ends_on",
+     "status",
+     "rationale"
+    ],
+    "title": "AssignmentOut"
+   },
+   "AssignmentPatch": {
+    "properties": {
+     "cover_person_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cover Person Id"
+     }
+    },
+    "type": "object",
+    "required": [
+     "cover_person_id"
+    ],
+    "title": "AssignmentPatch"
+   },
+   "AssignmentStatus": {
+    "type": "string",
+    "enum": [
+     "proposed",
+     "approved"
+    ],
+    "title": "AssignmentStatus"
+   },
+   "AuditOut": {
+    "properties": {
+     "actor_id": {
+      "type": "string",
+      "title": "Actor Id"
+     },
+     "action": {
+      "type": "string",
+      "title": "Action"
+     },
+     "detail": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Detail"
+     },
+     "at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "At"
+     }
+    },
+    "type": "object",
+    "required": [
+     "actor_id",
+     "action",
+     "detail",
+     "at"
+    ],
+    "title": "AuditOut"
+   },
+   "AvailabilityIn": {
+    "properties": {
+     "hours_per_week": {
+      "type": "number",
+      "maximum": 40.0,
+      "minimum": 0.0,
+      "title": "Hours Per Week"
+     }
+    },
+    "type": "object",
+    "required": [
+     "hours_per_week"
+    ],
+    "title": "AvailabilityIn"
+   },
+   "AvailabilityOut": {
+    "properties": {
+     "person_id": {
+      "type": "string",
+      "title": "Person Id"
+     },
+     "hours_per_week": {
+      "type": "number",
+      "title": "Hours Per Week"
+     },
+     "answered_on": {
+      "type": "string",
+      "format": "date",
+      "title": "Answered On"
+     }
+    },
+    "type": "object",
+    "required": [
+     "person_id",
+     "hours_per_week",
+     "answered_on"
+    ],
+    "title": "AvailabilityOut"
+   },
+   "ChangeDecision": {
+    "properties": {
+     "approve": {
+      "type": "boolean",
+      "title": "Approve"
+     }
+    },
+    "type": "object",
+    "required": [
+     "approve"
+    ],
+    "title": "ChangeDecision"
+   },
+   "ChangeIn": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "maxLength": 1000,
+      "minLength": 3,
+      "title": "Text"
+     }
+    },
+    "type": "object",
+    "required": [
+     "text"
+    ],
+    "title": "ChangeIn"
+   },
+   "ChangeOut": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "raw_text": {
+      "type": "string",
+      "title": "Raw Text"
+     },
+     "parsed": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Parsed"
+     },
+     "status": {
+      "$ref": "#/components/schemas/ChangeStatus"
+     },
+     "created_by_id": {
+      "type": "string",
+      "title": "Created By Id"
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Created At"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "raw_text",
+     "parsed",
+     "status",
+     "created_by_id",
+     "created_at"
+    ],
+    "title": "ChangeOut"
+   },
+   "ChangeStatus": {
+    "type": "string",
+    "enum": [
+     "proposed",
+     "approved",
+     "rejected"
+    ],
+    "title": "ChangeStatus"
+   },
+   "DutyOut": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "detail": {
+      "type": "string",
+      "title": "Detail"
+     },
+     "frequency": {
+      "type": "string",
+      "title": "Frequency"
+     },
+     "hours_per_week": {
+      "type": "number",
+      "title": "Hours Per Week"
+     },
+     "evidence": {
+      "$ref": "#/components/schemas/Evidence"
+     },
+     "quote": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Quote"
+     },
+     "source": {
+      "$ref": "#/components/schemas/DutySource"
+     },
+     "confirmed": {
+      "type": "boolean",
+      "title": "Confirmed"
+     },
+     "flag": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Flag"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "title",
+     "detail",
+     "frequency",
+     "hours_per_week",
+     "evidence",
+     "quote",
+     "source",
+     "confirmed",
+     "flag"
+    ],
+    "title": "DutyOut"
+   },
+   "DutyPatch": {
+    "properties": {
+     "title": {
+      "anyOf": [
+       {
+        "type": "string",
+        "maxLength": 200
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Title"
+     },
+     "hours_per_week": {
+      "anyOf": [
+       {
+        "type": "number",
+        "maximum": 40.0,
+        "minimum": 0.0
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Hours Per Week"
+     },
+     "confirmed": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Confirmed"
+     }
+    },
+    "type": "object",
+    "title": "DutyPatch"
+   },
+   "DutySource": {
+    "type": "string",
+    "enum": [
+     "interview",
+     "job_description",
+     "manual"
+    ],
+    "title": "DutySource"
+   },
+   "Evidence": {
+    "type": "string",
+    "enum": [
+     "said",
+     "documented",
+     "suggested"
+    ],
+    "title": "Evidence"
+   },
+   "FindingOut": {
+    "properties": {
+     "rule": {
+      "type": "string",
+      "title": "Rule"
+     },
+     "ok": {
+      "type": "boolean",
+      "title": "Ok"
+     },
+     "message": {
+      "type": "string",
+      "title": "Message"
+     },
+     "refs": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Refs"
+     }
+    },
+    "type": "object",
+    "required": [
+     "rule",
+     "ok",
+     "message",
+     "refs"
+    ],
+    "title": "FindingOut"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "InterviewReply": {
+    "properties": {
+     "text": {
+      "type": "string",
+      "maxLength": 4000,
+      "minLength": 1,
+      "title": "Text"
+     }
+    },
+    "type": "object",
+    "required": [
+     "text"
+    ],
+    "title": "InterviewReply"
+   },
+   "LeaveDetail": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "employee": {
+      "$ref": "#/components/schemas/PersonOut"
+     },
+     "manager": {
+      "$ref": "#/components/schemas/PersonOut"
+     },
+     "starts_on": {
+      "type": "string",
+      "format": "date",
+      "title": "Starts On"
+     },
+     "ends_on": {
+      "type": "string",
+      "format": "date",
+      "title": "Ends On"
+     },
+     "handback_days": {
+      "type": "integer",
+      "title": "Handback Days"
+     },
+     "status": {
+      "$ref": "#/components/schemas/LeaveStatus"
+     },
+     "job_description": {
+      "type": "string",
+      "title": "Job Description"
+     },
+     "duties": {
+      "items": {
+       "$ref": "#/components/schemas/DutyOut"
+      },
+      "type": "array",
+      "title": "Duties"
+     },
+     "assignments": {
+      "items": {
+       "$ref": "#/components/schemas/AssignmentOut"
+      },
+      "type": "array",
+      "title": "Assignments"
+     },
+     "availability": {
+      "items": {
+       "$ref": "#/components/schemas/AvailabilityOut"
+      },
+      "type": "array",
+      "title": "Availability"
+     },
+     "turns": {
+      "items": {
+       "$ref": "#/components/schemas/TurnOut"
+      },
+      "type": "array",
+      "title": "Turns"
+     },
+     "team": {
+      "items": {
+       "$ref": "#/components/schemas/PersonOut"
+      },
+      "type": "array",
+      "title": "Team"
+     },
+     "findings": {
+      "items": {
+       "$ref": "#/components/schemas/FindingOut"
+      },
+      "type": "array",
+      "title": "Findings"
+     },
+     "can_approve": {
+      "type": "boolean",
+      "title": "Can Approve"
+     },
+     "interview_done": {
+      "type": "boolean",
+      "title": "Interview Done"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "employee",
+     "manager",
+     "starts_on",
+     "ends_on",
+     "handback_days",
+     "status",
+     "job_description",
+     "duties",
+     "assignments",
+     "availability",
+     "turns",
+     "team",
+     "findings",
+     "can_approve",
+     "interview_done"
+    ],
+    "title": "LeaveDetail"
+   },
+   "LeaveStatus": {
+    "type": "string",
+    "enum": [
+     "planning",
+     "active",
+     "returning",
+     "closed"
+    ],
+    "title": "LeaveStatus"
+   },
+   "LeaveSummary": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "employee": {
+      "$ref": "#/components/schemas/PersonOut"
+     },
+     "manager": {
+      "$ref": "#/components/schemas/PersonOut"
+     },
+     "starts_on": {
+      "type": "string",
+      "format": "date",
+      "title": "Starts On"
+     },
+     "ends_on": {
+      "type": "string",
+      "format": "date",
+      "title": "Ends On"
+     },
+     "handback_days": {
+      "type": "integer",
+      "title": "Handback Days"
+     },
+     "status": {
+      "$ref": "#/components/schemas/LeaveStatus"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "employee",
+     "manager",
+     "starts_on",
+     "ends_on",
+     "handback_days",
+     "status"
+    ],
+    "title": "LeaveSummary"
+   },
+   "PersonOut": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "job_title": {
+      "type": "string",
+      "title": "Job Title"
+     },
+     "team": {
+      "type": "string",
+      "title": "Team"
+     },
+     "organization": {
+      "type": "string",
+      "title": "Organization"
+     },
+     "role": {
+      "$ref": "#/components/schemas/Role"
+     },
+     "skills": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Skills"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "job_title",
+     "team",
+     "organization",
+     "role",
+     "skills"
+    ],
+    "title": "PersonOut"
+   },
+   "ReturnDecision": {
+    "properties": {
+     "decision": {
+      "type": "string",
+      "enum": [
+       "agree",
+       "return"
+      ],
+      "title": "Decision"
+     }
+    },
+    "type": "object",
+    "required": [
+     "decision"
+    ],
+    "title": "ReturnDecision"
+   },
+   "ReturnExplanation": {
+    "properties": {
+     "summary_en": {
+      "type": "string",
+      "title": "Summary En"
+     },
+     "summary_bn": {
+      "type": "string",
+      "title": "Summary Bn"
+     }
+    },
+    "type": "object",
+    "required": [
+     "summary_en",
+     "summary_bn"
+    ],
+    "title": "ReturnExplanation"
+   },
+   "ReturnItemOut": {
+    "properties": {
+     "id": {
+      "type": "string",
+      "title": "Id"
+     },
+     "duty_id": {
+      "type": "string",
+      "title": "Duty Id"
+     },
+     "duty_title": {
+      "type": "string",
+      "title": "Duty Title"
+     },
+     "outcome": {
+      "$ref": "#/components/schemas/ReturnOutcome"
+     },
+     "holder_id": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Holder Id"
+     },
+     "note": {
+      "type": "string",
+      "title": "Note"
+     },
+     "employee_agreed": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Employee Agreed"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "duty_id",
+     "duty_title",
+     "outcome",
+     "holder_id",
+     "note",
+     "employee_agreed"
+    ],
+    "title": "ReturnItemOut"
+   },
+   "ReturnOutcome": {
+    "type": "string",
+    "enum": [
+     "returns",
+     "changed",
+     "stays_with_cover"
+    ],
+    "title": "ReturnOutcome"
+   },
+   "ReturnView": {
+    "properties": {
+     "items": {
+      "items": {
+       "$ref": "#/components/schemas/ReturnItemOut"
+      },
+      "type": "array",
+      "title": "Items"
+     },
+     "finding": {
+      "$ref": "#/components/schemas/FindingOut"
+     },
+     "can_close": {
+      "type": "boolean",
+      "title": "Can Close"
+     }
+    },
+    "type": "object",
+    "required": [
+     "items",
+     "finding",
+     "can_close"
+    ],
+    "title": "ReturnView"
+   },
+   "Role": {
+    "type": "string",
+    "enum": [
+     "employee",
+     "manager",
+     "cover",
+     "hr"
+    ],
+    "title": "Role"
+   },
+   "Speaker": {
+    "type": "string",
+    "enum": [
+     "shetu",
+     "employee"
+    ],
+    "title": "Speaker"
+   },
+   "TurnOut": {
+    "properties": {
+     "speaker": {
+      "$ref": "#/components/schemas/Speaker"
+     },
+     "text": {
+      "type": "string",
+      "title": "Text"
+     }
+    },
+    "type": "object",
+    "required": [
+     "speaker",
+     "text"
+    ],
+    "title": "TurnOut"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   }
+  }
+ }
+}
