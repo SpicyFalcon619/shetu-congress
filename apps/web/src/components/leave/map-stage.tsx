@@ -190,7 +190,7 @@ function RoleMap({ leave, me }: { leave: LeaveDetail; me: Person }) {
             return (
               <li key={d.id} className="grid gap-1.5 px-5 py-3.5">
                 <div className="flex flex-wrap items-center gap-2">
-                  <p className="min-w-0 basis-full text-[13px] font-bold sm:basis-0 sm:flex-1">{d.title}</p>
+                  <p className="min-w-0 basis-full text-[13px] font-bold sm:flex-1 sm:basis-0">{d.title}</p>
                   <Badge tone={ev.tone}>
                     <Icon className="size-3" aria-hidden />
                     {ev.label}
