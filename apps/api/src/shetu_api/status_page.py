@@ -107,7 +107,7 @@ def _shell(title: str, active: str, body: str) -> str:
 <header><div class="bar"><img src="{FAVICON}" alt="">
 <b>Shetu API <span class="bn">সেতু</span></b><nav>{nav}</nav></div></header>
 <main>{body}</main>
-<footer>Team Anomaly · International AI Builders Congress 2026 · All demo data is synthetic.</footer>
+<footer>Team_Anomaly · International AI Builders Congress 2026 · All demo data is synthetic.</footer>
 </body></html>"""
 
 

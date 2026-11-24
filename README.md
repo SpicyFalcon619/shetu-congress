@@ -20,7 +20,7 @@
 </p>
 
 <p align="center">
-  Team Anomaly · United International University · International AI Builders Congress 2026 (Idea to Unicorn)<br>
+  Team_Anomaly · United International University · International AI Builders Congress 2026 (Idea to Unicorn)<br>
   Domain: InfraSphere · Challenge: Human+AI
 </p>
 
@@ -551,7 +551,7 @@ The design system for the interface is documented in [DESIGN.md](DESIGN.md).
 
 ## Team
 
-**Team Anomaly**, Department of Computer Science and Engineering, United International University, Dhaka.
+**Team_Anomaly**, Department of Computer Science and Engineering, United International University, Dhaka.
 
 | Member | GitHub |
 |---|---|
